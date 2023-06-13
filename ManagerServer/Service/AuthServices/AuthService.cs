@@ -55,6 +55,10 @@ namespace ManagerServer.Service.VisitorServices
                 return (-2, "");
             }
             var result = await userManager.CreateAsync (user, model.Password);
+            if ( !(await roleManager.RoleExistsAsync ("Admin")) )
+            {
+                await roleManager.CreateAsync (new IdentityRole ("Admin"));
+            }
             if ( result.Succeeded )
             {
                 //add role admin tam thoi de dung het chuc nang
