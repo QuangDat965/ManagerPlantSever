@@ -30,7 +30,7 @@ namespace ManagerServer.Service.DataStatisticsService
                 foreach ( var DeviceId in DeviceIds )
                 {
                     List<StatisticalDataResponseModel> StatisticalDataResponse = await (from data in dbContext.StatisticalDataResponseForHourEntities
-                                                                                        where data.deviceType == Common.Enum.DeviceType.TemperatureMeasurementDevice && data.DeviceMeasureId == DeviceId
+                                                                                        where data.deviceType == Common.Enum.DeviceType.HumidityMeasuringDevice && data.DeviceMeasureId == DeviceId
                                                                                         select data.StatisticalDataResponseMapping ()).ToListAsync ();
                     if ( StatisticalDataResponse != null )
                     {
@@ -57,9 +57,11 @@ namespace ManagerServer.Service.DataStatisticsService
             }
             catch ( Exception ex )
             {
-                throw;
+                throw new Exception (ex.Message);
             }
         }
+
+
 
 
 
@@ -68,14 +70,51 @@ namespace ManagerServer.Service.DataStatisticsService
         {
             try
             {
-                var (result1, result2, result3) = await GetStaticalDataResponseByHourInZone (queryModel);
-                var data = new StatisticalResponseModel ()
+                StatisticalResponseModel data = new StatisticalResponseModel () { };
+                if ( queryModel.Period == Common.Enum.StatisticalPeriod.Hour )
                 {
-                    Temperatures = result1,
-                    Rain = result2,
-                    Humidities = result3,
+                    var (result1, result2, result3) = await GetStaticalDataResponseByHourInZone (queryModel);
+                    data = new StatisticalResponseModel ()
+                    {
+                        Temperatures = result1,
+                        Rain = result2,
+                        Humidities = result3,
 
-                };
+                    };
+                }
+                else if ( queryModel.Period == Common.Enum.StatisticalPeriod.Day )
+                {
+                    //var (result1, result2, result3) = await GetStaticalDataResponseByHourInZone (queryModel);
+                    //data = new StatisticalResponseModel ()
+                    //{
+                    //    Temperatures = result1,
+                    //    Rain = result2,
+                    //    Humidities = result3,
+
+                    //};
+                }
+                else if ( queryModel.Period == Common.Enum.StatisticalPeriod.Week )
+                {
+                    //var (result1, result2, result3) = await GetStaticalDataResponseByHourInZone (queryModel);
+                    //data = new StatisticalResponseModel ()
+                    //{
+                    //    Temperatures = result1,
+                    //    Rain = result2,
+                    //    Humidities = result3,
+
+                    //};
+                }
+                else if ( queryModel.Period == Common.Enum.StatisticalPeriod.Month )
+                {
+                    //var (result1, result2, result3) = await GetStaticalDataResponseByHourInZone (queryModel);
+                    //data = new StatisticalResponseModel ()
+                    //{
+                    //    Temperatures = result1,
+                    //    Rain = result2,
+                    //    Humidities = result3,
+
+                    //};
+                }
                 return new ResponseModel<StatisticalResponseModel> ()
                 {
                     code = 1,
@@ -83,9 +122,9 @@ namespace ManagerServer.Service.DataStatisticsService
                     data = data
                 };
             }
-            catch
+            catch ( Exception ex )
             {
-                throw;
+                throw new Exception (ex.Message);
             }
         }
 

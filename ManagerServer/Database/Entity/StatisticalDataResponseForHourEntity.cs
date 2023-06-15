@@ -11,7 +11,7 @@ namespace ManagerServer.Database.Entity
         [NotMapped]
         public MeasuringDeviceEntity? StatisticalDataResponse { get; set; }
         public DeviceType deviceType { get; set; }
-        public DateTime ValueDate { get; set; } // thoi gian tao => cuối mỗi giờ
+        public DateTime ValueDate { get; set; } = DateTime.Now; // thoi gian tao => cuối mỗi giờ
         public DateTime FromDate { get; set; }
         public DateTime ToDate { get; set; }
         public double AvgValue { get; set; }

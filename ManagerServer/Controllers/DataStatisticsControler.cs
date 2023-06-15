@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ManagerServer.Controllers
 {
+    [ApiController, Route ("api/[controller]")]
     public class DataStatisticsControler : ControllerBase
     {
         private readonly IDataStatisticsService dataStatisticsService;
@@ -13,8 +14,8 @@ namespace ManagerServer.Controllers
         {
             this.dataStatisticsService = dataStatisticsService;
         }
-
-        public async Task<ResponseModel<StatisticalResponseModel>> GetStaticalDataResponseByHourZone(StatisticalDataZoneQueryModel queryModel)
+        [HttpPost ("GetStaticalDataResponseByHourZone")]
+        public async Task<ResponseModel<StatisticalResponseModel>> GetStaticalDataResponseByHourZone([FromBody] StatisticalDataZoneQueryModel queryModel)
         {
             return await dataStatisticsService.GetStaticalDataResponseByHourZone (queryModel);
         }
