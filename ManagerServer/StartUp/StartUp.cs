@@ -1,8 +1,8 @@
 ﻿using ManagerServer.Database;
 using ManagerServer.Database.Entity;
 using ManagerServer.Service.BaseService;
-using ManagerServer.Service.DeviceService;
 using ManagerServer.Service.FarmService;
+using ManagerServer.Service.MeasuringDeviceService;
 using ManagerServer.Service.RoleService;
 using ManagerServer.Service.UserService;
 using ManagerServer.Service.VisitorServices;

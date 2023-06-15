@@ -4,7 +4,7 @@ using ManagerServer.Model.Device;
 using ManagerServer.Model.ResponeModel;
 using Microsoft.EntityFrameworkCore;
 
-namespace ManagerServer.Service.DeviceService
+namespace ManagerServer.Service.MeasuringDeviceService
 {
     public class DeviceService : IDeviceService
     {
