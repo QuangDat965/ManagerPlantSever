@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using ManagerServer.Common.Enum;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ManagerServer.Database.Entity
 {
@@ -8,6 +9,7 @@ namespace ManagerServer.Database.Entity
         [ForeignKey ("StatisticalDataResponse")]
 
         public int? DeviceMeasureId { get; set; }
+        public DeviceType deviceType { get; set; }
         [NotMapped]
         public MeasuringDeviceEntity? StatisticalDataResponse { get; set; }
         public DateTime ValueDate { get; set; } // thoi gian tao => cuối mỗi giờ
