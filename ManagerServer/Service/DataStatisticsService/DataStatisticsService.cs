@@ -6,7 +6,7 @@ namespace ManagerServer.Service.DataStatisticsService
 {
     public class DataStatisticsService : IDataStatisticsService
     {
-        public Task<ResponseModel<StatisticalDataResponseForHourEntity>> GetStaticDataResponse(StatisticalDataQueryModel queryModel)
+        public Task<ResponseModel<StatisticalDataResponseForHourEntity>> GetStaticDataResponse(StatisticalDataZoneQueryModel queryModel)
         {
             throw new NotImplementedException ();
         }
