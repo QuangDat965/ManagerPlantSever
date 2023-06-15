@@ -6,9 +6,9 @@ namespace ManagerServer.Service.DataStatisticsService
     public interface IDataStatisticsService
     {
         // Lấy giá trị thống kê  của 1 Zone
-        public Task<ResponseModel<StatisticalDataResponseModel>> GetStaticDataResponseZone(StatisticalDataZoneQueryModel queryModel);
+        public Task<ResponseModel<StatisticalResponseModel>> GetStaticalDataResponseByHourZone(StatisticalDataZoneQueryModel queryModel);
 
         // Lấy giá trị thống kê  của 1 Farm
-        public Task<ResponseModel<StatisticalDataResponseModel>> GetStaticDataResponseFarm(StatisticalDataZoneQueryModel queryModel);
+        public Task<ResponseModel<IEnumerable<StatisticalDataResponseModel>>> GetStaticalDataResponseFarm(StatisticalDataZoneQueryModel queryModel);
     }
 }

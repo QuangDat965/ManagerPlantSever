@@ -1,6 +1,8 @@
-﻿using ManagerServer.Database;
+﻿using ManagerServer.Common.Mapper;
+using ManagerServer.Database;
 using ManagerServer.Model.ResponeModel;
 using ManagerServer.Model.StatisticalDataResponse;
+using Microsoft.EntityFrameworkCore;
 
 namespace ManagerServer.Service.DataStatisticsService
 {
@@ -13,14 +15,81 @@ namespace ManagerServer.Service.DataStatisticsService
             this.dbContext = dbContext;
         }
 
-        public Task<ResponseModel<StatisticalDataResponseModel>> GetStaticDataResponseFarm(StatisticalDataZoneQueryModel queryModel)
+
+
+        // IN table , value default Device type = 1 istemperature measurement device
+        // IN table , value default Device type = 2 humidity measuring device
+        private async Task<(List<StatisticalDataResponseModel>, List<StatisticalDataResponseModel>, List<StatisticalDataResponseModel>)> GetStaticalDataResponseByHourInZone(StatisticalDataZoneQueryModel queryModel)
         {
-            throw new NotImplementedException ();
+            try
+            {
+                var DeviceIds = await dbContext.MeasuringDeviceEntities.Where (q => q.ZoneId == queryModel.ZoneId).Select (q => q.Id).ToListAsync ();
+                List<StatisticalDataResponseModel> result1 = new List<StatisticalDataResponseModel> () { };
+                List<StatisticalDataResponseModel> result2 = new List<StatisticalDataResponseModel> () { };
+                List<StatisticalDataResponseModel> result3 = new List<StatisticalDataResponseModel> () { };
+                foreach ( var DeviceId in DeviceIds )
+                {
+                    List<StatisticalDataResponseModel> StatisticalDataResponse = await (from data in dbContext.StatisticalDataResponseForHourEntities
+                                                                                        where data.deviceType == Common.Enum.DeviceType.TemperatureMeasurementDevice && data.DeviceMeasureId == DeviceId
+                                                                                        select data.StatisticalDataResponseMapping ()).ToListAsync ();
+                    if ( StatisticalDataResponse != null )
+                    {
+                        result1 = result1.Concat (StatisticalDataResponse).ToList ();
+                    }
+                    StatisticalDataResponse = await (from data in dbContext.StatisticalDataResponseForHourEntities
+                                                     where data.deviceType == Common.Enum.DeviceType.RainDetection && data.DeviceMeasureId == DeviceId
+                                                     select data.StatisticalDataResponseMapping ()).ToListAsync ();
+                    if ( StatisticalDataResponse != null )
+                    {
+                        result2 = result2.Concat (StatisticalDataResponse).ToList ();
+                    }
+                    StatisticalDataResponse = await (from data in dbContext.StatisticalDataResponseForHourEntities
+                                                     where data.deviceType == Common.Enum.DeviceType.TemperatureMeasurementDevice && data.DeviceMeasureId == DeviceId
+                                                     select data.StatisticalDataResponseMapping ()).ToListAsync ();
+                    if ( StatisticalDataResponse != null )
+                    {
+                        result2 = result2.Concat (StatisticalDataResponse).ToList ();
+                    }
+
+
+                }
+                return (result1, result2, result3);
+            }
+            catch ( Exception ex )
+            {
+                throw;
+            }
         }
 
 
 
-        public Task<ResponseModel<StatisticalDataResponseModel>> GetStaticDataResponseZone(StatisticalDataZoneQueryModel queryModel)
+
+        public async Task<ResponseModel<StatisticalResponseModel>> GetStaticalDataResponseByHourZone(StatisticalDataZoneQueryModel queryModel)
+        {
+            try
+            {
+                var (result1, result2, result3) = await GetStaticalDataResponseByHourInZone (queryModel);
+                var data = new StatisticalResponseModel ()
+                {
+                    Temperatures = result1,
+                    Rain = result2,
+                    Humidities = result3,
+
+                };
+                return new ResponseModel<StatisticalResponseModel> ()
+                {
+                    code = 1,
+                    message = "Success",
+                    data = data
+                };
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public Task<ResponseModel<IEnumerable<StatisticalDataResponseModel>>> GetStaticalDataResponseFarm(StatisticalDataZoneQueryModel queryModel)
         {
             throw new NotImplementedException ();
         }
