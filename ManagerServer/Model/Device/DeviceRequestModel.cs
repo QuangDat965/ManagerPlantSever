@@ -2,7 +2,7 @@
 {
     public class DeviceRequestModel : BaseQueryModel
     {
-        public string? DeviceId { get; set; }
+        public int? DeviceId { get; set; }
         public int? ZoneId { get; set; }
     }
 }

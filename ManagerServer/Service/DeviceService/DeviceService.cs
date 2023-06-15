@@ -14,34 +14,34 @@ namespace ManagerServer.Service.DeviceService
         {
             this.dbContext = dbContext;
         }
-        public async Task<List<DeviceEntity>> GetAllDevice()
+        public async Task<List<MeasuringDeviceEntity>> GetAllDevice()
         {
-            var result = await dbContext.DeviceEntities.ToListAsync ();
+            var result = await dbContext.MeasuringDeviceEntities.ToListAsync ();
             return result;
         }
 
-        public async Task<DeviceEntity> GetById(DeviceRequestModel requestModel)
+        public async Task<MeasuringDeviceEntity> GetById(DeviceRequestModel requestModel)
         {
-            return await dbContext.DeviceEntities.FirstOrDefaultAsync (p => p.Id == requestModel.DeviceId);
+            return await dbContext.MeasuringDeviceEntities.FirstOrDefaultAsync (p => p.Id == requestModel.DeviceId);
         }
 
-        public async Task<ResponseModel<List<DeviceEntity>>> GetDeviceAtive(DeviceRequestModel requestModel)
+        public async Task<ResponseModel<List<MeasuringDeviceEntity>>> GetDeviceAtive(DeviceRequestModel requestModel)
         {
             try
             {
-                return new ResponseModel<List<DeviceEntity>> ()
+                return new ResponseModel<List<MeasuringDeviceEntity>> ()
                 {
                     code = 1,
                     message = "Get Sucsess",
-                    data = await (from data in dbContext.DeviceEntities
-                                  where data.Status == true
+                    data = await (from data in dbContext.MeasuringDeviceEntities
+                                  where data.IsActive == true
                                   select data).ToListAsync ()
 
                 };
             }
             catch ( Exception ex )
             {
-                return new ResponseModel<List<DeviceEntity>> ()
+                return new ResponseModel<List<MeasuringDeviceEntity>> ()
                 {
                     code = 0,
                     message = ex.Message,
@@ -52,15 +52,15 @@ namespace ManagerServer.Service.DeviceService
 
         }
 
-        public async Task<ResponseModel<List<DeviceEntity>>> GetDeviceByZoneId(DeviceRequestModel requestModel)
+        public async Task<ResponseModel<List<MeasuringDeviceEntity>>> GetDeviceByZoneId(DeviceRequestModel requestModel)
         {
             try
             {
-                IQueryable<DeviceEntity> queryDevice = dbContext.DeviceEntities.Where (q => q.ZoneId == requestModel.ZoneId).AsNoTracking ().AsQueryable ();
+                IQueryable<MeasuringDeviceEntity> queryDevice = dbContext.MeasuringDeviceEntities.Where (q => q.ZoneId == requestModel.ZoneId).AsNoTracking ().AsQueryable ();
                 string searchTerm = requestModel.searchTerm.ToLower ().Trim ();
                 if ( !string.IsNullOrEmpty (requestModel.searchTerm) )
                 {
-                    queryDevice = queryDevice.Where (q => q.Name.ToLower ().Contains (searchTerm) || q.Decription.ToLower ().Contains (searchTerm));
+                    queryDevice = queryDevice.Where (q => q.Name.ToLower ().Contains (searchTerm) || q.Description.ToLower ().Contains (searchTerm));
                 }
                 if ( requestModel.filterType != Common.Enum.FilterType.None )
                 {
@@ -80,7 +80,7 @@ namespace ManagerServer.Service.DeviceService
                             break;
                     }
                 }
-                return new ResponseModel<List<DeviceEntity>> ()
+                return new ResponseModel<List<MeasuringDeviceEntity>> ()
                 {
                     code = 1,
                     message = "Get Sucsess",
@@ -90,7 +90,7 @@ namespace ManagerServer.Service.DeviceService
             }
             catch ( Exception ex )
             {
-                return new ResponseModel<List<DeviceEntity>> ()
+                return new ResponseModel<List<MeasuringDeviceEntity>> ()
                 {
                     code = 0,
                     message = ex.Message,
@@ -104,7 +104,7 @@ namespace ManagerServer.Service.DeviceService
         {
             try
             {
-                var device = await dbContext.DeviceEntities.FirstOrDefaultAsync (p => p.Id == requestModel.DeviceId);
+                var device = await dbContext.MeasuringDeviceEntities.FirstOrDefaultAsync (p => p.Id == requestModel.DeviceId);
                 device.ZoneId = requestModel.ZoneId;
                 await dbContext.SaveChangesAsync ();
                 return new ResponseModel<bool> ()

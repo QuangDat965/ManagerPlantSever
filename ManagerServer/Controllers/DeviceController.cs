@@ -16,7 +16,7 @@ namespace ManagerServer.Controllers
             this.service = service;
         }
         [HttpGet, Route("get-all")]
-        public async Task<List<DeviceEntity>> GetAllDevice()
+        public async Task<List<MeasuringDeviceEntity>> GetAllDevice()
         {
             return await service.GetAllDevice();
         }
@@ -26,12 +26,12 @@ namespace ManagerServer.Controllers
             return await service.SetDeviceToZone(requestModel);
         }
         [HttpPost, Route("getdeviceative")]
-        public async Task<ResponseModel<List<DeviceEntity>>> GetDeviceAtive([FromBody] DeviceRequestModel requestModel)
+        public async Task<ResponseModel<List<MeasuringDeviceEntity>>> GetDeviceAtive([FromBody] DeviceRequestModel requestModel)
         {
             return await service.GetDeviceAtive(requestModel);
         }
         [HttpPost, Route("getdevicebyzoneid")]
-        public async Task<ResponseModel<List<DeviceEntity>>> GetDeviceByZoneId([FromBody] DeviceRequestModel requestModel)
+        public async Task<ResponseModel<List<MeasuringDeviceEntity>>> GetDeviceByZoneId([FromBody] DeviceRequestModel requestModel)
         {
             return await service.GetDeviceByZoneId(requestModel);
         }

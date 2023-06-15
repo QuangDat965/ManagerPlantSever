@@ -9,12 +9,12 @@ namespace ManagerServer.Common.Mapper
         {
             return new DeviceActionDisplayModel ()
             {
-                Id = entity.id,
-                DescriptionDevice = entity.descriptionDevice,
-                IsAction = entity.isAction,
-                IsProblem = entity.isProblem,
-                NameDevice = entity.nameDevice,
-                ZoneId = entity.zoneId,
+                Id = entity.Id,
+                DescriptionDevice = entity.Description,
+                IsAction = entity.IsAction,
+                IsProblem = entity.IsProblem,
+                NameDevice = entity.Name,
+                ZoneId = entity.ZoneId,
             };
         }
     }

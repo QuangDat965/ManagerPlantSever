@@ -19,7 +19,7 @@ namespace ManagerServer.Service.DeviceActionService
         {
             try
             {
-                var deviceAction = await dbContext.DeviceActionEntities.Where (q => requestModel.ZoneId == q.zoneId && requestModel.DeviceActionId == q.id).FirstOrDefaultAsync ();
+                var deviceAction = await dbContext.DeviceActionEntities.Where (q => requestModel.ZoneId == q.ZoneId && requestModel.DeviceActionId == q.Id).FirstOrDefaultAsync ();
                 if ( deviceAction != null )
                 {
                     dbContext.DeviceActionEntities.Remove (deviceAction);
@@ -58,7 +58,7 @@ namespace ManagerServer.Service.DeviceActionService
             try
             {
                 var deviceActionQueryable = from data in dbContext.DeviceActionEntities
-                                            where zoneId == data.zoneId
+                                            where zoneId == data.ZoneId
                                             select data.DeviceActionMapping ();
                 return new ResponseModel<List<DeviceActionDisplayModel>> ()
                 {
@@ -81,12 +81,12 @@ namespace ManagerServer.Service.DeviceActionService
         {
             try
             {
-                var deviceAction = await dbContext.DeviceActionEntities.Where (q => requestModel.ZoneId == q.zoneId && requestModel.DeviceActionId == q.id).FirstOrDefaultAsync ();
+                var deviceAction = await dbContext.DeviceActionEntities.Where (q => requestModel.ZoneId == q.ZoneId && requestModel.DeviceActionId == q.Id).FirstOrDefaultAsync ();
                 if ( deviceAction != null )
                 {
-                    if ( deviceAction.isAction )
+                    if ( deviceAction.IsAction )
                     {
-                        deviceAction.isAction = false;
+                        deviceAction.IsAction = false;
                     }
                 }
                 else
@@ -121,12 +121,12 @@ namespace ManagerServer.Service.DeviceActionService
         {
             try
             {
-                var deviceAction = await dbContext.DeviceActionEntities.Where (q => requestModel.ZoneId == q.zoneId && requestModel.DeviceActionId == q.id).FirstOrDefaultAsync ();
+                var deviceAction = await dbContext.DeviceActionEntities.Where (q => requestModel.ZoneId == q.ZoneId && requestModel.DeviceActionId == q.Id).FirstOrDefaultAsync ();
                 if ( deviceAction != null )
                 {
-                    if ( !deviceAction.isAction )
+                    if ( !deviceAction.IsAction )
                     {
-                        deviceAction.isAction = true;
+                        deviceAction.IsAction = true;
                     }
                 }
                 else
@@ -161,15 +161,15 @@ namespace ManagerServer.Service.DeviceActionService
         {
             try
             {
-                var deviceAction = await dbContext.DeviceActionEntities.Where (q => updateModel.zoneId == q.zoneId && updateModel.id == q.id).FirstOrDefaultAsync ();
+                var deviceAction = await dbContext.DeviceActionEntities.Where (q => updateModel.zoneId == q.ZoneId && updateModel.id == q.Id).FirstOrDefaultAsync ();
                 if ( deviceAction != null )
                 {
-                    if ( !string.IsNullOrEmpty (updateModel.nameDevice) ) deviceAction.nameDevice = updateModel.nameDevice;
-                    if ( !string.IsNullOrEmpty (updateModel.descriptionDevice) ) deviceAction.descriptionDevice = updateModel.descriptionDevice;
-                    if ( !string.IsNullOrEmpty (updateModel.image) ) deviceAction.image = updateModel.image;
-                    if ( updateModel.isAction ) deviceAction.isAction = true;
-                    if ( updateModel.isProblem ) deviceAction.isProblem = true;
-                    if ( updateModel.zoneId != deviceAction.zoneId ) deviceAction.zoneId = deviceAction.zoneId;
+                    if ( !string.IsNullOrEmpty (updateModel.nameDevice) ) deviceAction.Name = updateModel.nameDevice;
+                    if ( !string.IsNullOrEmpty (updateModel.descriptionDevice) ) deviceAction.Description = updateModel.descriptionDevice;
+                    if ( !string.IsNullOrEmpty (updateModel.image) ) deviceAction.Image = updateModel.image;
+                    if ( updateModel.isAction ) deviceAction.IsAction = true;
+                    if ( updateModel.isProblem ) deviceAction.IsProblem = true;
+                    if ( updateModel.zoneId != deviceAction.ZoneId ) deviceAction.ZoneId = deviceAction.ZoneId;
                 }
                 else
                 {

@@ -1,22 +1,45 @@
-﻿using ManagerServer.Common.Constant;
-using ManagerServer.Model.RawData;
-using System.Text;
+﻿using System.Text;
 using uPLibrary.Networking.M2Mqtt;
-using uPLibrary.Networking.M2Mqtt.Messages;
 
 internal class Program
 {
-    private static  void  Main(string[] args)
+    private static void Main(string[] args)
     {
-        MqttClient client = new MqttClient("broker.emqx.io");
-        var a = Guid.NewGuid().ToString();
+        //MqttClient client = new MqttClient ("broker.emqx.io");
+        //var a = Guid.NewGuid ().ToString ();
 
-        client.Connect(a);
+        //client.Connect (a);
+        //client.MqttMsgPublishReceived += (s, e) =>
+        //{
+        //    Console.WriteLine (e.Topic.ToString () + ": " + Encoding.UTF8.GetString (e.Message));
+        //};
+        //client.Subscribe (new string[] { Constant.SystemUrl + "/#" }, new byte[] { MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE });
+
+        //var configuration = new ConfigurationBuilder ()
+        //.SetBasePath (AppDomain.CurrentDomain.BaseDirectory) // Specify the base path where the appsettings.json file is located
+        //.AddJsonFile ("appsettings.json") // Specify the name of the appsettings.json file
+        //.Build ();
+        //var section = configuration.GetSection ("ConnectionStrings");
+        //var value = section.GetValue<string> ("DefaultConnection");
+        //Console.WriteLine (value);
+
+        MqttClient client;
+        client = new MqttClient ("broker.emqx.io");
         client.MqttMsgPublishReceived += (s, e) =>
         {
-            Console.WriteLine(e.Topic.ToString() +": " + Encoding.UTF8.GetString(e.Message) );
+            Console.WriteLine (e.Topic);
+            Console.WriteLine (Encoding.UTF8.GetString (e.Message));
+
         };
-        client.Subscribe(new string[] { Constant.SystemUrl + "/#" }, new byte[] { MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE });
+        client.Connect ("ghdwbtuwy23123123215553");
+
+        client.Subscribe (new string[] { "25052001" }, new byte[] { 0 });
+        //Console.ReadKey ();
+        while ( true )
+        {
+            client.Publish ("25052001", Encoding.UTF8.GetBytes ("Hi i am Tempature 56 abc"));
+            Thread.Sleep (5000);
+        }
 
 
 
