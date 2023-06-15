@@ -19,10 +19,10 @@ namespace ManagerServer.Service.ZoneService
             var zone = new ZoneEntity ()
             {
                 Name = queryModel.ZoneName,
-                Decription = queryModel.Decription,
+                Description = queryModel.Decription,
                 Image = queryModel.Image,
                 FarmId = queryModel.FarmId,
-                UpdateAt = DateTime.Now
+                DateCreate = DateTime.Now
             };
             await dbContext.AddAsync (zone);
             return await dbContext.SaveChangesAsync () > 0;
@@ -54,10 +54,10 @@ namespace ManagerServer.Service.ZoneService
                         queryable = queryable.OrderByDescending (q => q.Name);
                         break;
                     case Common.Enum.FilterType.SortByDate:
-                        queryable = queryable.OrderBy (q => q.CreateAt);
+                        queryable = queryable.OrderBy (q => q.DateCreate);
                         break;
                     case Common.Enum.FilterType.SortByDateReverse:
-                        queryable = queryable.OrderByDescending (q => q.CreateAt);
+                        queryable = queryable.OrderByDescending (q => q.DateCreate);
                         break;
                 }
             }
@@ -81,7 +81,7 @@ namespace ManagerServer.Service.ZoneService
             if ( zone != null )
             {
                 if ( queryModel.ZoneName != null ) zone.Name = queryModel.ZoneName;
-                if ( queryModel.Decription != null ) zone.Decription = queryModel.Decription;
+                if ( queryModel.Decription != null ) zone.Description = queryModel.Decription;
                 if ( queryModel.Image != null ) zone.Image = queryModel.Image;
                 if ( queryModel.FarmId != null ) zone.FarmId = queryModel.FarmId;
             }

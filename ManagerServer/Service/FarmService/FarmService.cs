@@ -37,9 +37,9 @@ namespace ManagerServer.Service.FarmService
             var farm = new FarmEntity ()
             {
                 Name = queryModel.FarmName,
-                Decription = queryModel.FarmDescription,
+                Description = queryModel.FarmDescription,
                 Adress = queryModel.Adress,
-                Avata = queryModel.Avata,
+                Image = queryModel.Avata,
                 OwnerId = ownerId,
             };
             dbContext.Add (farm);
@@ -87,7 +87,7 @@ namespace ManagerServer.Service.FarmService
                 string searchTerm = baseQueryModel.searchTerm.ToUpper ().Trim ();
                 if ( !string.IsNullOrEmpty (baseQueryModel.searchTerm) )
                 {
-                    farmsQuery = farmsQuery.Where (q => q.Name.ToUpper ().Contains (searchTerm) || q.Decription.ToUpper ().Contains (searchTerm));
+                    farmsQuery = farmsQuery.Where (q => q.Name.ToUpper ().Contains (searchTerm) || q.Description.ToUpper ().Contains (searchTerm));
                 }
                 if ( baseQueryModel.filterType != FilterType.None )
                 {
@@ -100,10 +100,10 @@ namespace ManagerServer.Service.FarmService
                             farmsQuery = farmsQuery.OrderByDescending (q => q.Name);
                             break;
                         case FilterType.SortByDate:
-                            farmsQuery = farmsQuery.OrderBy (q => q.CreateAt);
+                            farmsQuery = farmsQuery.OrderBy (q => q.DateCreate);
                             break;
                         case FilterType.SortByDateReverse:
-                            farmsQuery = farmsQuery.OrderByDescending (q => q.CreateAt);
+                            farmsQuery = farmsQuery.OrderByDescending (q => q.DateCreate);
                             break;
                     }
                 }
@@ -145,8 +145,8 @@ namespace ManagerServer.Service.FarmService
                 {
                     if ( query.FarmName != null ) farm.Name = query.FarmName;
                     if ( query.Adress != null ) farm.Adress = query.Adress;
-                    if ( query.Avata != null ) farm.Avata = query.Avata;
-                    farm.UpdateAt = DateTime.Now;
+                    if ( query.Avata != null ) farm.Image = query.Avata;
+                    farm.DateCreate = DateTime.Now;
                 }
                 return await dbContext.SaveChangesAsync () > 0;
             }

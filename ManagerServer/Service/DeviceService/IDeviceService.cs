@@ -6,10 +6,10 @@ namespace ManagerServer.Service.DeviceService
 {
     public interface IDeviceService
     {
-         Task<List<DeviceEntity>> GetAllDevice();
-         Task<DeviceEntity> GetById(DeviceRequestModel requestModel);
+         Task<List<MeasuringDeviceEntity>> GetAllDevice();
+         Task<MeasuringDeviceEntity> GetById(DeviceRequestModel requestModel);
          Task<ResponseModel<bool>> SetDeviceToZone(DeviceRequestModel requestModel);
-         Task<ResponseModel<List<DeviceEntity>>> GetDeviceAtive(DeviceRequestModel requestModel);
-         Task<ResponseModel<List<DeviceEntity>>> GetDeviceByZoneId(DeviceRequestModel requestModel);
+         Task<ResponseModel<List<MeasuringDeviceEntity>>> GetDeviceAtive(DeviceRequestModel requestModel);
+         Task<ResponseModel<List<MeasuringDeviceEntity>>> GetDeviceByZoneId(DeviceRequestModel requestModel);
     }
 }
