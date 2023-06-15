@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ManagerServer.Controllers
 {
+    [ApiController, Route ("api/[controller]")]
     public class DeviceActionController : Controller
     {
         private readonly IDeviceActionService deviceActionService;

@@ -4,7 +4,7 @@ using ManagerServer.Model.Device;
 using ManagerServer.Model.ResponeModel;
 using Microsoft.EntityFrameworkCore;
 
-namespace ManagerServer.Service.DeviceService
+namespace ManagerServer.Service.MeasuringDeviceService
 {
     public class DeviceService : IDeviceService
     {
@@ -105,7 +105,20 @@ namespace ManagerServer.Service.DeviceService
             try
             {
                 var device = await dbContext.MeasuringDeviceEntities.FirstOrDefaultAsync (p => p.Id == requestModel.DeviceId);
-                device.ZoneId = requestModel.ZoneId;
+                if ( device != null )
+                {
+                    device.ZoneId = requestModel.ZoneId;
+                }
+                else
+                {
+                    return new ResponseModel<bool> ()
+                    {
+                        code = 0,
+                        message = "Device not found",
+                        data = false,
+
+                    };
+                }
                 await dbContext.SaveChangesAsync ();
                 return new ResponseModel<bool> ()
                 {

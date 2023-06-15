@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ManagerServer.Common.Enum;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ManagerServer.Database.Entity
@@ -13,6 +14,7 @@ namespace ManagerServer.Database.Entity
         [NotMapped]
         public ZoneEntity? Zone { get; set; }
         public string? Name { get; set; }
+        public DeviceType deviceType { get; set; }
         public string? Description { get; set; }
         public string? Address { get; set; }
         public string? Image { get; set; }
