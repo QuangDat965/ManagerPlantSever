@@ -8,6 +8,7 @@ namespace ManagerServer.Service.DeviceActionService
         Task<ResponseModel<List<DeviceActionDisplayModel>>> GetDeviceActionByZoneId(int zoneId);
         Task<ResponseModel<bool>> DeleteDeviceAction(RemoveDeviceActionModel requestModel);
         Task<ResponseModel<bool>> UpdateDeviceAction(DeviceActionUpdateModel updateModel);
+        Task<ResponseModel<bool>> CreateDeviceAction(DeviceActionUpdateModel updateModel);
         Task<ResponseModel<bool>> TurnOnDeviceAction(RemoveDeviceActionModel requestModel);
         Task<ResponseModel<bool>> TurnOffDeviceAction(RemoveDeviceActionModel requestModel);
 

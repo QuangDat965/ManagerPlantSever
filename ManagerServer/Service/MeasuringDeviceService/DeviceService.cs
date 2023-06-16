@@ -14,6 +14,54 @@ namespace ManagerServer.Service.MeasuringDeviceService
         {
             this.dbContext = dbContext;
         }
+
+        public async Task<ResponseModel<bool>> CreateDevice(MeasuringDeviceCreateModel requestModel)
+        {
+            try
+            {
+                var modelCreat = new MeasuringDeviceEntity ()
+                {
+                    Address = requestModel.Address,
+                    DateCreate = requestModel.DateCreate,
+                    DateUpdate = requestModel.DateUpdate,
+                    DeviceActionLogId = requestModel.DeviceActionLogId,
+                    IsActive = requestModel.IsActive,
+                    deviceType = requestModel.deviceType,
+                    IsProblem = requestModel.IsProblem,
+                    Image = requestModel.Image,
+                    Name = requestModel.Name,
+                    Description = requestModel.Description,
+                    ZoneId = requestModel.ZoneId,
+                };
+                await this.dbContext.MeasuringDeviceEntities.AddAsync (modelCreat);
+                var result = await this.dbContext.SaveChangesAsync () > 0;
+                if ( !result )
+                {
+                    return new ResponseModel<bool> ()
+                    {
+                        code = 0,
+                        data = false,
+                        message = "Create Fail",
+                    };
+                }
+                return new ResponseModel<bool> ()
+                {
+                    code = 1,
+                    data = result,
+                    message = "Create Success",
+                };
+            }
+            catch ( Exception ex )
+            {
+                return new ResponseModel<bool> ()
+                {
+                    code = 0,
+                    data = false,
+                    message = $"Create Fail {ex.Message}",
+                };
+            }
+        }
+
         public async Task<List<MeasuringDeviceEntity>> GetAllDevice()
         {
             var result = await dbContext.MeasuringDeviceEntities.ToListAsync ();
@@ -25,7 +73,7 @@ namespace ManagerServer.Service.MeasuringDeviceService
             return await dbContext.MeasuringDeviceEntities.FirstOrDefaultAsync (p => p.Id == requestModel.DeviceId);
         }
 
-        public async Task<ResponseModel<List<MeasuringDeviceEntity>>> GetDeviceAtive(DeviceRequestModel requestModel)
+        public async Task<ResponseModel<List<MeasuringDeviceEntity>>> GetDeviceActive(DeviceRequestModel requestModel)
         {
             try
             {
