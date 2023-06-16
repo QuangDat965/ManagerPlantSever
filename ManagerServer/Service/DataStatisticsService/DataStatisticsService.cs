@@ -33,21 +33,21 @@ namespace ManagerServer.Service.DataStatisticsService
                 foreach ( var DeviceId in DeviceIds )
                 {
                     List<StatisticalDataResponseModel> StatisticalDataResponse = await (from data in dbContext.StatisticalDataResponseForHourEntities
-                                                                                        where data.deviceType == Common.Enum.DeviceType.HumidityMeasuringDevice && data.DeviceMeasureId == DeviceId
+                                                                                        where data.DeviceType == Common.Enum.DeviceType.HumidityMeasuringDevice && data.DeviceMeasureId == DeviceId
                                                                                         select data.StatisticalDataResponseMapping ()).ToListAsync ();
                     if ( StatisticalDataResponse != null )
                     {
                         result1 = result1.Concat (StatisticalDataResponse).ToList ();
                     }
                     StatisticalDataResponse = await (from data in dbContext.StatisticalDataResponseForHourEntities
-                                                     where data.deviceType == Common.Enum.DeviceType.RainDetection && data.DeviceMeasureId == DeviceId
+                                                     where data.DeviceType == Common.Enum.DeviceType.RainDetection && data.DeviceMeasureId == DeviceId
                                                      select data.StatisticalDataResponseMapping ()).ToListAsync ();
                     if ( StatisticalDataResponse != null )
                     {
                         result2 = result2.Concat (StatisticalDataResponse).ToList ();
                     }
                     StatisticalDataResponse = await (from data in dbContext.StatisticalDataResponseForHourEntities
-                                                     where data.deviceType == Common.Enum.DeviceType.TemperatureMeasurementDevice && data.DeviceMeasureId == DeviceId
+                                                     where data.DeviceType == Common.Enum.DeviceType.TemperatureMeasurementDevice && data.DeviceMeasureId == DeviceId
                                                      select data.StatisticalDataResponseMapping ()).ToListAsync ();
                     if ( StatisticalDataResponse != null )
                     {
@@ -99,16 +99,6 @@ namespace ManagerServer.Service.DataStatisticsService
                             MinValue = d.Min (d => d.MinValue),
                         }).ToList ();
 
-            //var data3 = result3.GroupBy (d => d.ValueDate.Year)
-            //            .Select (d => new StatisticalDataResponseModel
-            //            {
-            //                //DateRetrive = DateTime.Now,
-            //                ValueDate = d.Select (d => d.ValueDate).FirstOrDefault (),
-            //                AvgValue = d.Average (d => d.AvgValue),
-            //                TotalValue = d.Sum (d => d.TotalValue),
-            //                MaxValue = d.Max (d => d.MaxValue),
-            //                MinValue = d.Min (d => d.MinValue),
-            //            }).ToList ();
             return (data1, data2, data3);
         }
         // thong ke theo thang
@@ -223,9 +213,7 @@ namespace ManagerServer.Service.DataStatisticsService
         {
             return await dbContext.MeasuringDeviceEntities.Where (q => q.ZoneId == queryModel.ZoneId)
                         .Include (c => c.StatisticalDataResponsesForHours)
-                        .Include (c => c.StatisticalDataResponsesForDays)
-                        .Include (c => c.StatisticalDataResponsesForWeek)
-                        .Include (c => c.StatisticalDataResponsesForMonth).ToListAsync ();
+                        .ToListAsync ();
         }
 
     }

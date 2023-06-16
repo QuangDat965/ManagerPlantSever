@@ -3,8 +3,8 @@
     public enum DeviceType
     {
         Unknown = 0,
-        HumidityMeasuringDevice = 1,
-        TemperatureMeasurementDevice = 2,
+        TemperatureMeasurementDevice = 1,
+        HumidityMeasuringDevice = 2,
         RainDetection = 3
     }
 }

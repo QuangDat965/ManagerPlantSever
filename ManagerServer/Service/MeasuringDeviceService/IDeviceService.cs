@@ -9,7 +9,8 @@ namespace ManagerServer.Service.MeasuringDeviceService
         Task<List<MeasuringDeviceEntity>> GetAllDevice();
         Task<MeasuringDeviceEntity> GetById(DeviceRequestModel requestModel);
         Task<ResponseModel<bool>> SetDeviceToZone(DeviceRequestModel requestModel);
-        Task<ResponseModel<List<MeasuringDeviceEntity>>> GetDeviceAtive(DeviceRequestModel requestModel);
+        Task<ResponseModel<List<MeasuringDeviceEntity>>> GetDeviceActive(DeviceRequestModel requestModel);
         Task<ResponseModel<List<MeasuringDeviceEntity>>> GetDeviceByZoneId(DeviceRequestModel requestModel);
+        Task<ResponseModel<bool>> CreateDevice(MeasuringDeviceCreateModel requestModel);
     }
 }

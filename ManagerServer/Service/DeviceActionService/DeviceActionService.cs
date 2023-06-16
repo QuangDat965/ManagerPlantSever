@@ -1,5 +1,6 @@
 ﻿using ManagerServer.Common.Mapper;
 using ManagerServer.Database;
+using ManagerServer.Database.Entity;
 using ManagerServer.Model.Device;
 using ManagerServer.Model.ResponeModel;
 using Microsoft.EntityFrameworkCore;
@@ -7,12 +8,56 @@ using Microsoft.EntityFrameworkCore;
 namespace ManagerServer.Service.DeviceActionService
 {
     public sealed class DeviceActionService : IDeviceActionService
+
     {
         private readonly ManagerDbContext dbContext;
 
         public DeviceActionService(ManagerDbContext dbContext)
         {
             this.dbContext = dbContext;
+        }
+
+        public async Task<ResponseModel<bool>> CreateDeviceAction(DeviceActionUpdateModel updateModel)
+        {
+            try
+            {
+                var createModel = new DeviceActionEntity ()
+                {
+                    ZoneId = updateModel.zoneId,
+                    Image = updateModel.image,
+                    Name = updateModel.nameDevice,
+                    DateUpdate = DateTime.Now,
+                    IsProblem = updateModel.isProblem,
+                    IsAction = updateModel.isAction,
+                    Description = updateModel.descriptionDevice,
+                };
+                await this.dbContext.DeviceActionEntities.AddAsync (createModel);
+                var result = await this.dbContext.SaveChangesAsync () > 0;
+                if ( !result )
+                {
+                    return new ResponseModel<bool>
+                    {
+                        code = 0,
+                        message = "Create Fail",
+                        data = false
+                    };
+                }
+                return new ResponseModel<bool>
+                {
+                    code = 1,
+                    message = "Create Success",
+                    data = true
+                };
+            }
+            catch ( Exception ex )
+            {
+                return new ResponseModel<bool>
+                {
+                    code = 0,
+                    message = "Create Fail" + ex.Message,
+                    data = false
+                };
+            }
         }
 
         public async Task<ResponseModel<bool>> DeleteDeviceAction(RemoveDeviceActionModel requestModel)

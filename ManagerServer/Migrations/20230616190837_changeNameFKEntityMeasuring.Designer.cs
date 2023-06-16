@@ -4,6 +4,7 @@ using ManagerServer.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ManagerServer.Migrations
 {
     [DbContext(typeof(ManagerDbContext))]
-    partial class ManagerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230616190837_changeNameFKEntityMeasuring")]
+    partial class changeNameFKEntityMeasuring
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -203,27 +206,26 @@ namespace ManagerServer.Migrations
                     b.Property<int?>("DeviceActionId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("DeviceMeasureId")
+                        .HasColumnType("int");
+
                     b.Property<bool>("IsAuto")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("NumberMaxChangeAuto")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("NumberMinChangeAuto")
+                    b.Property<bool>("NumberChangeAuto")
                         .HasColumnType("bit");
 
                     b.Property<DateTime>("ValueDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<double>("ValueMax")
-                        .HasColumnType("float");
-
-                    b.Property<double>("ValueMin")
+                    b.Property<double>("ValueDeviceMeasure")
                         .HasColumnType("float");
 
                     b.HasKey("Id");
 
                     b.HasIndex("DeviceActionId");
+
+                    b.HasIndex("DeviceMeasureId");
 
                     b.ToTable("DeviceActionLogEntities");
                 });
@@ -287,7 +289,7 @@ namespace ManagerServer.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("DeviceType")
+                    b.Property<int?>("DeviceActionLogId")
                         .HasColumnType("int");
 
                     b.Property<string>("Image")
@@ -308,11 +310,64 @@ namespace ManagerServer.Migrations
                     b.Property<int?>("ZoneId")
                         .HasColumnType("int");
 
+                    b.Property<int>("deviceType")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("DeviceActionLogId");
 
                     b.HasIndex("ZoneEntityId");
 
                     b.ToTable("MeasuringDeviceEntities");
+                });
+
+            modelBuilder.Entity("ManagerServer.Database.Entity.StatisticalDataResponseForDayEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<double?>("AvgValue")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime?>("DateRetrive")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("DeviceMeasureId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("FromDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<double?>("MaxValue")
+                        .HasColumnType("float");
+
+                    b.Property<int?>("MeasuringDeviceEntityId")
+                        .HasColumnType("int");
+
+                    b.Property<double?>("MinValue")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime?>("ToDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<double?>("TotalValue")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime?>("ValueDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("deviceType")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MeasuringDeviceEntityId");
+
+                    b.ToTable("StatisticalDataResponseForDayEntities");
                 });
 
             modelBuilder.Entity("ManagerServer.Database.Entity.StatisticalDataResponseForHourEntity", b =>
@@ -332,8 +387,8 @@ namespace ManagerServer.Migrations
                     b.Property<int?>("DeviceMeasureId")
                         .HasColumnType("int");
 
-                    b.Property<int>("DeviceType")
-                        .HasColumnType("int");
+                    b.Property<DateTime>("FromDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<double>("MaxValue")
                         .HasColumnType("float");
@@ -344,17 +399,119 @@ namespace ManagerServer.Migrations
                     b.Property<double>("MinValue")
                         .HasColumnType("float");
 
+                    b.Property<DateTime>("ToDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<double>("TotalValue")
                         .HasColumnType("float");
 
                     b.Property<DateTime>("ValueDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("deviceType")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("MeasuringDeviceEntityId");
 
                     b.ToTable("StatisticalDataResponseForHourEntities");
+                });
+
+            modelBuilder.Entity("ManagerServer.Database.Entity.StatisticalDataResponseForMonthEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<double>("AvgValue")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime>("DateRetrive")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("DeviceMeasureId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("FromDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<double>("MaxValue")
+                        .HasColumnType("float");
+
+                    b.Property<int?>("MeasuringDeviceEntityId")
+                        .HasColumnType("int");
+
+                    b.Property<double>("MinValue")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime>("ToDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<double>("TotalValue")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime>("ValueDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("deviceType")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MeasuringDeviceEntityId");
+
+                    b.ToTable("StatisticalDataResponseForMonthEntities");
+                });
+
+            modelBuilder.Entity("ManagerServer.Database.Entity.StatisticalDataResponseForWeekEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<double>("AvgValue")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime>("DateRetrive")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("DeviceMeasureId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("FromDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<double>("MaxValue")
+                        .HasColumnType("float");
+
+                    b.Property<int?>("MeasuringDeviceEntityId")
+                        .HasColumnType("int");
+
+                    b.Property<double>("MinValue")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime>("ToDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<double>("TotalValue")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime>("ValueDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("deviceType")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MeasuringDeviceEntityId");
+
+                    b.ToTable("StatisticalDataResponseForWeekEntities");
                 });
 
             modelBuilder.Entity("ManagerServer.Database.Entity.ZoneEntity", b =>
@@ -549,7 +706,13 @@ namespace ManagerServer.Migrations
                         .WithMany("DeviceActionLog")
                         .HasForeignKey("DeviceActionId");
 
+                    b.HasOne("ManagerServer.Database.Entity.MeasuringDeviceEntity", "MeasuringDevice")
+                        .WithMany()
+                        .HasForeignKey("DeviceMeasureId");
+
                     b.Navigation("DeviceAction");
+
+                    b.Navigation("MeasuringDevice");
                 });
 
             modelBuilder.Entity("ManagerServer.Database.Entity.FarmEntity", b =>
@@ -561,15 +724,42 @@ namespace ManagerServer.Migrations
 
             modelBuilder.Entity("ManagerServer.Database.Entity.MeasuringDeviceEntity", b =>
                 {
+                    b.HasOne("ManagerServer.Database.Entity.DeviceActionLogEntity", "DeviceActionLog")
+                        .WithMany()
+                        .HasForeignKey("DeviceActionLogId");
+
                     b.HasOne("ManagerServer.Database.Entity.ZoneEntity", null)
                         .WithMany("MeasuringDevices")
                         .HasForeignKey("ZoneEntityId");
+
+                    b.Navigation("DeviceActionLog");
+                });
+
+            modelBuilder.Entity("ManagerServer.Database.Entity.StatisticalDataResponseForDayEntity", b =>
+                {
+                    b.HasOne("ManagerServer.Database.Entity.MeasuringDeviceEntity", null)
+                        .WithMany("StatisticalDataResponsesForDays")
+                        .HasForeignKey("MeasuringDeviceEntityId");
                 });
 
             modelBuilder.Entity("ManagerServer.Database.Entity.StatisticalDataResponseForHourEntity", b =>
                 {
                     b.HasOne("ManagerServer.Database.Entity.MeasuringDeviceEntity", null)
                         .WithMany("StatisticalDataResponsesForHours")
+                        .HasForeignKey("MeasuringDeviceEntityId");
+                });
+
+            modelBuilder.Entity("ManagerServer.Database.Entity.StatisticalDataResponseForMonthEntity", b =>
+                {
+                    b.HasOne("ManagerServer.Database.Entity.MeasuringDeviceEntity", null)
+                        .WithMany("StatisticalDataResponsesForMonth")
+                        .HasForeignKey("MeasuringDeviceEntityId");
+                });
+
+            modelBuilder.Entity("ManagerServer.Database.Entity.StatisticalDataResponseForWeekEntity", b =>
+                {
+                    b.HasOne("ManagerServer.Database.Entity.MeasuringDeviceEntity", null)
+                        .WithMany("StatisticalDataResponsesForWeek")
                         .HasForeignKey("MeasuringDeviceEntityId");
                 });
 
@@ -650,7 +840,13 @@ namespace ManagerServer.Migrations
                 {
                     b.Navigation("DataDeviceResponses");
 
+                    b.Navigation("StatisticalDataResponsesForDays");
+
                     b.Navigation("StatisticalDataResponsesForHours");
+
+                    b.Navigation("StatisticalDataResponsesForMonth");
+
+                    b.Navigation("StatisticalDataResponsesForWeek");
                 });
 
             modelBuilder.Entity("ManagerServer.Database.Entity.ZoneEntity", b =>

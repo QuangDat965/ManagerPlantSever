@@ -3,11 +3,11 @@
     public class DeviceActionUpdateModel
     {
         public int id { get; set; }
-        public string nameDevice { get; set; } = string.Empty;
-        public string descriptionDevice { get; set; } = string.Empty;
+        public string? nameDevice { get; set; }
+        public string? descriptionDevice { get; set; }
         public bool isProblem { get; set; } = false;
-        public bool isAction { get; set; } = false;
-        public string image { get; set; } = string.Empty;
+        public bool isAction { get; set; } = true;
+        public string? image { get; set; }
         public int zoneId { get; set; }
     }
 }

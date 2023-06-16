@@ -10,12 +10,11 @@ namespace ManagerServer.Database.Entity
         [ForeignKey ("DeviceAction")]
         public int? DeviceActionId { get; set; }
         public DeviceActionEntity? DeviceAction { get; set; }
-        [ForeignKey ("MeasuringDevice")]
-        public int? DeviceMeasureId { get; set; }
-        public MeasuringDeviceEntity? MeasuringDevice { get; set; }
         public DateTime ValueDate { get; set; }
-        public double ValueDeviceMeasure { get; set; }
+        public double ValueMin { get; set; }
+        public double ValueMax { get; set; }
         public bool IsAuto { get; set; } = false;
-        public bool NumberChangeAuto { get; set; }
+        public bool NumberMinChangeAuto { get; set; }
+        public bool NumberMaxChangeAuto { get; set; }
     }
 }
