@@ -2,6 +2,7 @@
 using ManagerServer.Database.Entity;
 using ManagerServer.Service.BaseService;
 using ManagerServer.Service.DataStatisticsService;
+using ManagerServer.Service.DeviceActionService;
 using ManagerServer.Service.FarmService;
 using ManagerServer.Service.MeasuringDeviceService;
 using ManagerServer.Service.RoleService;
@@ -36,6 +37,7 @@ namespace ManagerServer.StartUp
             builder.Services.AddScoped<IZoneService, ZoneService> ();
             builder.Services.AddScoped<IDeviceService, DeviceService> ();
             builder.Services.AddScoped<IDataStatisticsService, DataStatisticsService> ();
+            builder.Services.AddScoped<IDeviceActionService, DeviceActionService> ();
 
             builder.Services.AddCors (options =>
             {

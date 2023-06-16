@@ -39,5 +39,10 @@ namespace ManagerServer.Controllers
         {
             return this.deviceActionService.TurnOffDeviceAction (requestModel);
         }
+        [HttpPost, Route ("CreateDeviceAction")]
+        public async Task<ResponseModel<bool>> CreateDeviceAction(DeviceActionUpdateModel updateModel)
+        {
+            return await this.deviceActionService.CreateDeviceAction (updateModel);
+        }
     }
 }

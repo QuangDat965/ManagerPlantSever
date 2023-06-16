@@ -23,7 +23,7 @@ namespace ManagerServer.Database.Entity
         public bool? IsActive { get; set; } = true;
         public bool? IsProblem { get; set; } = false;
         [ForeignKey ("DeviceActionLog")]
-        public int? DataDeviceResponsesId { get; set; }
+        public int? DeviceActionLogId { get; set; }
         public List<DataDeviceResponseEntity>? DataDeviceResponses { get; set; }
         public DeviceActionLogEntity? DeviceActionLog { get; set; }
         public List<StatisticalDataResponseForHourEntity>? StatisticalDataResponsesForHours { get; set; }
