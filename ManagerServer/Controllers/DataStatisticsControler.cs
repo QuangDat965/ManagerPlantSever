@@ -1,4 +1,5 @@
-﻿using ManagerServer.Model.ResponeModel;
+﻿using ManagerServer.Database.Entity;
+using ManagerServer.Model.ResponeModel;
 using ManagerServer.Model.StatisticalDataResponse;
 using ManagerServer.Service.DataStatisticsService;
 using Microsoft.AspNetCore.Mvc;
@@ -19,5 +20,11 @@ namespace ManagerServer.Controllers
         {
             return await dataStatisticsService.GetStaticalDataResponseByHourZone (queryModel);
         }
+        [HttpPost ("getall")]
+        public async Task<List<MeasuringDeviceEntity>> GetStaticalDataResponseAll(StatisticalDataZoneQueryModel queryModel)
+        {
+            return await dataStatisticsService.GetStaticalDataResponseAll (queryModel);
+        }
+
     }
 }
