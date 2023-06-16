@@ -28,12 +28,12 @@ namespace ManagerServer.Service.VisitorServices
         public async Task<string> SignInAsync(SignInRequestModel model)
         {
             var result = await signInManager.PasswordSignInAsync (
-               model.Email, model.Password, false, false);
+               model.UserName, model.Password, false, false);
             if ( !result.Succeeded )
             {
                 return "";
             }
-            var authClaims = await GetAuthClaims (await userManager.FindByEmailAsync (model.Email));
+            var authClaims = await GetAuthClaims (await userManager.FindByNameAsync (model.UserName));
             var token = GenarateToken (authClaims);
             return await Task.FromResult (token);
         }
@@ -45,7 +45,7 @@ namespace ManagerServer.Service.VisitorServices
                 FirstName = model.FistName,
                 LastName = model.LastName,
                 Email = model.Email,
-                UserName = $"{model.FistName}_{model.LastName}",
+                UserName = model.UserName,
                 Birthday = DateTime.Now,
                 PhoneNumber = model.NumberPhone,
             };
@@ -78,7 +78,7 @@ namespace ManagerServer.Service.VisitorServices
             var authClaims = new List<Claim>
              {
                  new Claim("Id", user.Id),
-                 new Claim(ClaimTypes.Email,user.Email),
+                 new Claim(ClaimTypes.Email, user.Email),
                  new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString()) ,
 
              };

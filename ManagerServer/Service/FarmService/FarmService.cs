@@ -83,7 +83,7 @@ namespace ManagerServer.Service.FarmService
             try
             {
                 string userId = this.GetIdbyToken (token);
-                IQueryable<FarmEntity> farmsQuery = dbContext.FarmEntities.AsNoTracking ().AsQueryable ();
+                IQueryable<FarmEntity> farmsQuery = dbContext.FarmEntities.Where (q => q.OwnerId == userId).AsNoTracking ().AsQueryable ();
                 string searchTerm = baseQueryModel.searchTerm.ToUpper ().Trim ();
                 if ( !string.IsNullOrEmpty (baseQueryModel.searchTerm) )
                 {
