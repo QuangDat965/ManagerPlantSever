@@ -12,13 +12,14 @@ namespace MyProject.Services
     {
         private readonly MqttClient _client;
         private readonly string _clientId;
-        private readonly DbContextOptionsBuilder<ManagerDbContext> builder =
-        new DbContextOptionsBuilder<ManagerDbContext> ().UseSqlServer (Constant.ConnectionStringSqlServer);
+        private readonly IConfiguration configuration;
+        
 
-        public ListeningService()
+        public ListeningService(IConfiguration configuration)
         {
-            _client = new MqttClient (Constant.BrokerURL);
-            _clientId = Guid.NewGuid ().ToString ();
+            _client = new MqttClient(Constant.BrokerURL);
+            _clientId = Guid.NewGuid().ToString();
+            this.configuration = configuration;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -50,6 +51,7 @@ namespace MyProject.Services
 
         private async Task<bool> SaveToDb(MqttMsgPublishEventArgs e)
         {
+          var builder = new DbContextOptionsBuilder<ManagerDbContext>().UseSqlServer(configuration["ConnectionStrings:DefaultConnection"]);
             try
             {
                 var arr = e.Topic.Split ('/');
