@@ -4,9 +4,9 @@ namespace ManagerServer.Model
 {
     public class SignInRequestModel
     {
-        [Required,EmailAddress]
-        public string Email { get; set; }
-        [Required]        
+        [Required]
+        public string UserName { get; set; }
+        [Required]
         public string Password { get; set; } = null!;
     }
 }
