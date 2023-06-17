@@ -5,8 +5,9 @@ internal class Program
     private static void Main(string[] args)
     {
 
-        var builder = WebApplication.CreateBuilder (args)
-            .AddServicesContext ()
+        var builder = WebApplication.CreateBuilder(args)
+            //.AddServicesContext ()
+            .AddMySql()
             .AddServicesBase ()
             .AddServicesIdentity ()
             .AddBackgroundServices ()

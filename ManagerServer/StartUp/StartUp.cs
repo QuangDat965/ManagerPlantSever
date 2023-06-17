@@ -91,6 +91,46 @@ namespace ManagerServer.StartUp
             });
             return builder;
         }
+
+        public static WebApplicationBuilder AddMySql(this WebApplicationBuilder builder)
+        {
+            var serverVersion = new MySqlServerVersion(new Version(5, 7, 0));
+
+            // Replace 'YourDbContext' with the name of your own DbContext derived class.
+            builder.Services.AddDbContext<ManagerDbContext>(
+                dbContextOptions => dbContextOptions
+                    .UseMySql(builder.Configuration.GetConnectionString("MySqlConnection"), serverVersion)
+                    );
+
+            builder.Services.AddSwaggerGen(opt =>
+            {
+                opt.SwaggerDoc("v1", new OpenApiInfo { Title = "ManagerServer", Version = "v1" });
+                opt.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    In = ParameterLocation.Header,
+                    Description = "Please enter token",
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.Http,
+                    BearerFormat = "JWT",
+                    Scheme = "bearer"
+                });
+                opt.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type=ReferenceType.SecurityScheme,
+                                Id="Bearer"
+                            }
+                        },
+                        new string[]{}
+                    }
+                });
+            });
+            return builder;
+        }
         public static WebApplicationBuilder AddServicesIdentity(this WebApplicationBuilder builder)
         {
             builder.Services.AddIdentity<AppUser, IdentityRole> ()
