@@ -73,9 +73,6 @@ namespace ManagerServer.Database
         public DbSet<MeasuringDeviceEntity> MeasuringDeviceEntities { get; set; }
         public DbSet<DeviceActionEntity> DeviceActionEntities { get; set; }
         public DbSet<DeviceActionLogEntity> DeviceActionLogEntities { get; set; }
-        public DbSet<StatisticalDataResponseForDayEntity> StatisticalDataResponseForDayEntities { get; set; }
         public DbSet<StatisticalDataResponseForHourEntity> StatisticalDataResponseForHourEntities { get; set; }
-        public DbSet<StatisticalDataResponseForMonthEntity> StatisticalDataResponseForMonthEntities { get; set; }
-        public DbSet<StatisticalDataResponseForWeekEntity> StatisticalDataResponseForWeekEntities { get; set; }
     }
 }
