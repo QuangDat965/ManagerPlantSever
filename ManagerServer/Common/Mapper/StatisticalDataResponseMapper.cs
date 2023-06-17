@@ -11,10 +11,7 @@ namespace ManagerServer.Common.Mapper
             {
                 AvgValue = entity.AvgValue,
                 DateRetrive = entity.DateRetrive,
-                DeviceMeasureId = entity.DeviceMeasureId,
-                FromDate = entity.FromDate,
-                ToDate = entity.ToDate,
-                Id = entity.Id,
+                //DeviceMeasureId = entity.DeviceMeasureId,
                 MaxValue = entity.MaxValue,
                 MinValue = entity.MinValue,
                 TotalValue = entity.TotalValue,

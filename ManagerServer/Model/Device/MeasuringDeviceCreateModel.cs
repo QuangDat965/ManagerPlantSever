@@ -6,7 +6,7 @@ namespace ManagerServer.Model.Device
     {
         public int? ZoneId { get; set; }
         public string? Name { get; set; }
-        public DeviceType deviceType { get; set; } = DeviceType.Unknown;
+        public DeviceType DeviceType { get; set; } = DeviceType.Unknown;
         public string? Description { get; set; }
         public string? Address { get; set; }
         public string? Image { get; set; }

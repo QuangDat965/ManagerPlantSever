@@ -14,7 +14,7 @@ namespace ManagerServer.Database.Entity
         [NotMapped]
         public ZoneEntity? Zone { get; set; }
         public string? Name { get; set; }
-        public DeviceType deviceType { get; set; }
+        public DeviceType DeviceType { get; set; }
         public string? Description { get; set; }
         public string? Address { get; set; }
         public string? Image { get; set; }
@@ -22,13 +22,7 @@ namespace ManagerServer.Database.Entity
         public DateTime? DateUpdate { get; set; }
         public bool? IsActive { get; set; } = true;
         public bool? IsProblem { get; set; } = false;
-        [ForeignKey ("DeviceActionLog")]
-        public int? DeviceActionLogId { get; set; }
         public List<DataDeviceResponseEntity>? DataDeviceResponses { get; set; }
-        public DeviceActionLogEntity? DeviceActionLog { get; set; }
         public List<StatisticalDataResponseForHourEntity>? StatisticalDataResponsesForHours { get; set; }
-        public List<StatisticalDataResponseForDayEntity>? StatisticalDataResponsesForDays { get; set; }
-        public List<StatisticalDataResponseForWeekEntity>? StatisticalDataResponsesForWeek { get; set; }
-        public List<StatisticalDataResponseForMonthEntity>? StatisticalDataResponsesForMonth { get; set; }
     }
 }
