@@ -310,6 +310,8 @@ namespace ManagerServer.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("DataDeviceResponsesId");
+
                     b.HasIndex("ZoneEntityId");
 
                     b.ToTable("MeasuringDeviceEntities");
@@ -323,13 +325,37 @@ namespace ManagerServer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<double>("AvgValue")
+                    b.Property<double?>("AvgValue")
                         .HasColumnType("float");
 
-                    b.Property<DateTime>("DateRetrive")
+                    b.Property<DateTime?>("DateRetrive")
                         .HasColumnType("datetime2");
 
                     b.Property<int?>("DeviceMeasureId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("FromDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<double>("MaxValue")
+                        .HasColumnType("float");
+
+                    b.Property<int?>("MeasuringDeviceEntityId")
+                        .HasColumnType("int");
+
+                    b.Property<double>("MinValue")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime>("ToDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<double>("TotalValue")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime>("ValueDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("deviceType")
                         .HasColumnType("int");
 
                     b.Property<int>("DeviceType")
@@ -561,6 +587,10 @@ namespace ManagerServer.Migrations
 
             modelBuilder.Entity("ManagerServer.Database.Entity.MeasuringDeviceEntity", b =>
                 {
+                    b.HasOne("ManagerServer.Database.Entity.DeviceActionLogEntity", "DeviceActionLog")
+                        .WithMany()
+                        .HasForeignKey("DataDeviceResponsesId");
+
                     b.HasOne("ManagerServer.Database.Entity.ZoneEntity", null)
                         .WithMany("MeasuringDevices")
                         .HasForeignKey("ZoneEntityId");
