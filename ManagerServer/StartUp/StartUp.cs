@@ -1,5 +1,6 @@
 ﻿using ManagerServer.Database;
 using ManagerServer.Database.Entity;
+using ManagerServer.Model.MongoModel;
 using ManagerServer.Service.BaseService;
 using ManagerServer.Service.DataStatisticsService;
 using ManagerServer.Service.DeviceActionService;
@@ -162,6 +163,11 @@ namespace ManagerServer.StartUp
                 options.AddPolicy ("User", policy => policy.RequireRole ("User"));
                 options.AddPolicy ("Owner", policy => policy.RequireRole ("Owner"));
             });
+            return builder;
+        }
+        public static WebApplicationBuilder AddConfiguationMongodb(this WebApplicationBuilder builder)
+        {
+            builder.Services.Configure<MongoDBSettings> (builder.Configuration.GetSection ("MongoDB"));
             return builder;
         }
         public static WebApplication UsesService(this WebApplication app)
