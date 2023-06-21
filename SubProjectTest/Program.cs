@@ -44,17 +44,17 @@ internal class Program
 
 
         MqttClient client;
-        client = new MqttClient ("broker.emqx.io");
+        client = new MqttClient("broker.emqx.io");
         client.MqttMsgPublishReceived += (s, e) =>
         {
-            Console.WriteLine (e.Topic);
-            Console.WriteLine (Encoding.UTF8.GetString (e.Message));
+            Console.WriteLine(e.Topic);
+            Console.WriteLine(Encoding.UTF8.GetString(e.Message));
         };
-        client.Connect ("ghdwbghf222tuwy23123123213");
+        client.Connect("ghdwbghf222tuwy23123123213");
 
-        client.Subscribe (new string[] { "d6rjcudf7yfrokfyd6w84or994kffef/#" }, new byte[] { 0 });
-        client.Publish ("d6rjcudf7yfrokfyd6w84or994kffef" + "/thisisdeviceid1" + "/W" + "/L" + "/IsOnFan", Encoding.UTF8.GetBytes ("1"));
-        client.Publish ("d6rjcudf7yfrokfyd6w84or994kffef" + "/thisisdeviceid1" + "/W" + "/L" + "/IsOnWater", Encoding.UTF8.GetBytes ("0"));
+        client.Subscribe(new string[] { "d6rjcudf7yfrokfyd6w84or994kffef/#" }, new byte[] { 0 });
+        client.Publish("d6rjcudf7yfrokfyd6w84or994kffef" + "/thisisdeviceid1" + "/W" + "/L" + "/IsOnFan", Encoding.UTF8.GetBytes("1"));
+        client.Publish("d6rjcudf7yfrokfyd6w84or994kffef" + "/thisisdeviceid1" + "/W" + "/L" + "/IsOnWater", Encoding.UTF8.GetBytes("0"));
         //client.Publish ("d6rjcudf7yfrokfyd6w84or994kffef" + "/thisisdeviceid1" + "/W" + "/L" + "/IsOnFan", Encoding.UTF8.GetBytes ("1"));
 
 
