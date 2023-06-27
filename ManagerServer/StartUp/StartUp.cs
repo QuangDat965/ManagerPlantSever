@@ -1,5 +1,6 @@
 ﻿using ManagerServer.Database;
 using ManagerServer.Database.Entity;
+using ManagerServer.Model.MongoModel;
 using ManagerServer.Service.BaseService;
 using ManagerServer.Service.DataStatisticsService;
 using ManagerServer.Service.DeviceActionService;
@@ -94,18 +95,18 @@ namespace ManagerServer.StartUp
 
         public static WebApplicationBuilder AddMySql(this WebApplicationBuilder builder)
         {
-            var serverVersion = new MySqlServerVersion(new Version(5, 7, 0));
+            var serverVersion = new MySqlServerVersion (new Version (5, 7, 0));
 
             // Replace 'YourDbContext' with the name of your own DbContext derived class.
-            builder.Services.AddDbContext<ManagerDbContext>(
+            builder.Services.AddDbContext<ManagerDbContext> (
                 dbContextOptions => dbContextOptions
-                    .UseMySql(builder.Configuration.GetConnectionString("MySqlConnection"), serverVersion)
+                    .UseMySql (builder.Configuration.GetConnectionString ("MySqlConnection"), serverVersion)
                     );
 
-            builder.Services.AddSwaggerGen(opt =>
+            builder.Services.AddSwaggerGen (opt =>
             {
-                opt.SwaggerDoc("v1", new OpenApiInfo { Title = "ManagerServer", Version = "v1" });
-                opt.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                opt.SwaggerDoc ("v1", new OpenApiInfo { Title = "ManagerServer", Version = "v1" });
+                opt.AddSecurityDefinition ("Bearer", new OpenApiSecurityScheme
                 {
                     In = ParameterLocation.Header,
                     Description = "Please enter token",
@@ -114,7 +115,7 @@ namespace ManagerServer.StartUp
                     BearerFormat = "JWT",
                     Scheme = "bearer"
                 });
-                opt.AddSecurityRequirement(new OpenApiSecurityRequirement
+                opt.AddSecurityRequirement (new OpenApiSecurityRequirement
                 {
                     {
                         new OpenApiSecurityScheme
@@ -164,9 +165,13 @@ namespace ManagerServer.StartUp
             });
             return builder;
         }
+        public static WebApplicationBuilder AddConfiguationMongodb(this WebApplicationBuilder builder)
+        {
+            builder.Services.Configure<MongoDBSettings> (builder.Configuration.GetSection ("MongoDB"));
+            return builder;
+        }
         public static WebApplication UsesService(this WebApplication app)
         {
-
             app.UseSwagger ();
             app.UseSwaggerUI ();
             app.UseCors ("AllowAllHeaders");
