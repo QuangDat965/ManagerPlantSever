@@ -32,7 +32,7 @@ namespace ManagerServer.Service.DataStatisticsService
                                             .Where (f => f.Id == queryModel.FarmId)
                                             .Join (dbContext.ZoneEntities, f => f.Id, z => z.Id, (f, z) => z)
                                             .Where (z => z.Id == queryModel.ZoneId)
-                                            .Join (dbContext.MeasuringDeviceEntities, z => z.Id, m => m.Id, (b, c) => c.Id)
+                                            //.Join (dbContext.MeasuringDeviceEntities, z => z.Id, m => m.Id, (b, c) => c.Id)
                                             .ToListAsync ();
 
 
@@ -41,7 +41,7 @@ namespace ManagerServer.Service.DataStatisticsService
                 List<StatisticalDataResponseModel> result2 = new List<StatisticalDataResponseModel> () { };
                 List<StatisticalDataResponseModel> result3 = new List<StatisticalDataResponseModel> () { };
                 var statisticalDataResponses = await dbContext.StatisticalDataResponseForHourEntities
-                                        .Where (data => DeviceIds.Contains ((int)data.DeviceMeasureId))
+                                        //.Where (data => DeviceIds.Contains ((int)data.DeviceMeasureId))
                                         .ToListAsync ();
                 result1 = statisticalDataResponses
                     .Where (data => data.DeviceType == Common.Enum.DeviceType.HumidityMeasuringDevice)
