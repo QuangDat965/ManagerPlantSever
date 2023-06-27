@@ -2,7 +2,7 @@
 {
     public class DeviceActionUpdateModel
     {
-        public int id { get; set; }
+        public string id { get; set; }
         public string? nameDevice { get; set; }
         public string? descriptionDevice { get; set; }
         public bool isProblem { get; set; } = false;

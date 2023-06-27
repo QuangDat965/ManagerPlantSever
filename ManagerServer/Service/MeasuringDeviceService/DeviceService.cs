@@ -151,7 +151,7 @@ namespace ManagerServer.Service.MeasuringDeviceService
         {
             try
             {
-                var device = await dbContext.MeasuringDeviceEntities.FirstOrDefaultAsync (p => p.Id == requestModel.DeviceId);
+                var device = await dbContext.MeasuringDeviceEntities.FirstOrDefaultAsync (/*p => p.Id == requestModel.DeviceId*/);
                 if ( device != null )
                 {
                     device.ZoneId = requestModel.ZoneId;

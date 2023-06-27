@@ -2,10 +2,11 @@
 {
     public enum TopicType
     {
-        Temperature = 0,
-        Humidity = 1,
-        Moisture = 2,
-        Brightness,
+        temperature = 0,
+        humidity = 1,
+        raindetection,
+        moisture ,
+        rrightness,
         IsOnWater ,
         IsOnFan,
         IsOnLamp,

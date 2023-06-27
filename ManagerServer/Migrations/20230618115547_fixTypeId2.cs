@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ManagerServer.Migrations
 {
     /// <inheritdoc />
-    public partial class initial : Migration
+    public partial class fixTypeId2 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -276,13 +276,14 @@ namespace ManagerServer.Migrations
                 name: "DeviceActionEntities",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Id = table.Column<string>(type: "varchar(95)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     Name = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Description = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     IsProblem = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    DeviceActionType = table.Column<int>(type: "int", nullable: false),
                     IsAction = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     Image = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -308,8 +309,8 @@ namespace ManagerServer.Migrations
                 name: "MeasuringDeviceEntities",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Id = table.Column<string>(type: "varchar(95)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     ZoneId = table.Column<int>(type: "int", nullable: true),
                     Name = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -343,7 +344,8 @@ namespace ManagerServer.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    DeviceActionId = table.Column<int>(type: "int", nullable: true),
+                    DeviceActionId = table.Column<string>(type: "varchar(95)", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     ValueDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     ValueMin = table.Column<double>(type: "double", nullable: false),
                     ValueMax = table.Column<double>(type: "double", nullable: false),
@@ -375,8 +377,10 @@ namespace ManagerServer.Migrations
                     TimeRetrieve = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     Type = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    DataDeviceId = table.Column<int>(type: "int", nullable: true),
-                    MeasuringDeviceEntityId = table.Column<int>(type: "int", nullable: true)
+                    DataDeviceId = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    MeasuringDeviceEntityId = table.Column<string>(type: "varchar(95)", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
@@ -395,7 +399,8 @@ namespace ManagerServer.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    DeviceMeasureId = table.Column<int>(type: "int", nullable: true),
+                    DeviceMeasureId = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     DeviceType = table.Column<int>(type: "int", nullable: false),
                     ValueDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     AvgValue = table.Column<double>(type: "double", nullable: false),
@@ -403,7 +408,8 @@ namespace ManagerServer.Migrations
                     MaxValue = table.Column<double>(type: "double", nullable: false),
                     TotalValue = table.Column<double>(type: "double", nullable: false),
                     DateRetrive = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    MeasuringDeviceEntityId = table.Column<int>(type: "int", nullable: true)
+                    MeasuringDeviceEntityId = table.Column<string>(type: "varchar(95)", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {

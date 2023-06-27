@@ -3,6 +3,6 @@
     public class RemoveDeviceActionModel
     {
         public int? ZoneId { get; set; }
-        public int? DeviceActionId { get; set; }
+        public string? DeviceActionId { get; set; }
     }
 }

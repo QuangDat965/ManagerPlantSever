@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ManagerServer.Migrations
 {
     [DbContext(typeof(ManagerDbContext))]
-    [Migration("20230617202906_initial")]
-    partial class initial
+    [Migration("20230618115547_fixTypeId2")]
+    partial class fixTypeId2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -119,11 +119,11 @@ namespace ManagerServer.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int?>("DataDeviceId")
-                        .HasColumnType("int");
+                    b.Property<string>("DataDeviceId")
+                        .HasColumnType("longtext");
 
-                    b.Property<int?>("MeasuringDeviceEntityId")
-                        .HasColumnType("int");
+                    b.Property<string>("MeasuringDeviceEntityId")
+                        .HasColumnType("varchar(95)");
 
                     b.Property<string>("Payload")
                         .HasColumnType("longtext");
@@ -146,9 +146,8 @@ namespace ManagerServer.Migrations
 
             modelBuilder.Entity("ManagerServer.Database.Entity.DeviceActionEntity", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(95)");
 
                     b.Property<string>("Address")
                         .HasColumnType("longtext");
@@ -161,6 +160,9 @@ namespace ManagerServer.Migrations
 
                     b.Property<string>("Description")
                         .HasColumnType("longtext");
+
+                    b.Property<int>("DeviceActionType")
+                        .HasColumnType("int");
 
                     b.Property<string>("Image")
                         .HasColumnType("longtext");
@@ -193,8 +195,8 @@ namespace ManagerServer.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int?>("DeviceActionId")
-                        .HasColumnType("int");
+                    b.Property<string>("DeviceActionId")
+                        .HasColumnType("varchar(95)");
 
                     b.Property<bool>("IsAuto")
                         .HasColumnType("tinyint(1)");
@@ -260,9 +262,8 @@ namespace ManagerServer.Migrations
 
             modelBuilder.Entity("ManagerServer.Database.Entity.MeasuringDeviceEntity", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(95)");
 
                     b.Property<string>("Address")
                         .HasColumnType("longtext");
@@ -316,8 +317,8 @@ namespace ManagerServer.Migrations
                     b.Property<DateTime>("DateRetrive")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int?>("DeviceMeasureId")
-                        .HasColumnType("int");
+                    b.Property<string>("DeviceMeasureId")
+                        .HasColumnType("longtext");
 
                     b.Property<int>("DeviceType")
                         .HasColumnType("int");
@@ -325,8 +326,8 @@ namespace ManagerServer.Migrations
                     b.Property<double>("MaxValue")
                         .HasColumnType("double");
 
-                    b.Property<int?>("MeasuringDeviceEntityId")
-                        .HasColumnType("int");
+                    b.Property<string>("MeasuringDeviceEntityId")
+                        .HasColumnType("varchar(95)");
 
                     b.Property<double>("MinValue")
                         .HasColumnType("double");
