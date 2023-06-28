@@ -9,12 +9,14 @@ namespace ManagerServer.Service.DataStatisticsMongoDBService
     public class DataStatisticsMongoDBService : IDataStatisticsMongoDBService
     {
         private readonly IMongoCollection<TemperatureHumidityDeviceEntity> TemperatureHumidityCollection;
+        private readonly IMongoCollection<RainDetectionEntity> RainDetectionCollection;
 
         public DataStatisticsMongoDBService(IOptions<MongoDBSettings> mongoDBSettings)
         {
             var client = new MongoClient(mongoDBSettings.Value.ConnectionURI);
             var database = client.GetDatabase(mongoDBSettings.Value.DatabaseName);
             TemperatureHumidityCollection = database.GetCollection<TemperatureHumidityDeviceEntity>(mongoDBSettings.Value.TemperatureHuminityDevice);
+            RainDetectionCollection = database.GetCollection<RainDetectionEntity>(mongoDBSettings.Value.RainDetectionDevice);
         }
 
         public async Task<List<TemperatureHumidityDeviceEntity>> PullDataMongoToDatabaseRelationship()
@@ -23,7 +25,14 @@ namespace ManagerServer.Service.DataStatisticsMongoDBService
             return dataTemperatureHumidity;
         }
 
-        public Task PushDataToDB(TemperatureHumidityDeviceEntity temperatureHumidityDeviceEntity, RainDetectionEntity rainDetectionEntity)
+        public async Task PushDataTemperatureHumidityToDB(TemperatureHumidityDeviceEntity temperatureHumidityDeviceEntity)
+        {
+            temperatureHumidityDeviceEntity.Id = ObjectId.GenerateNewId().ToString();
+            await TemperatureHumidityCollection.InsertOneAsync(temperatureHumidityDeviceEntity);
+            Task.CompletedTask.Wait();
+        }
+
+        public Task PushDataTemperatureHumidityToDB(RainDetectionEntity rainDetectionEntity)
         {
             throw new NotImplementedException();
         }

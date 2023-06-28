@@ -18,5 +18,11 @@ namespace ManagerServer.Controllers
         {
             return await dataStatisticsMongoDBService.PullDataMongoToDatabaseRelationship();
         }
+        [HttpPost("PushDataTemperatureHumidity")]
+        public async Task PushDataTemperatureHumidityToDB(TemperatureHumidityDeviceEntity temperatureHumidityDeviceEntity)
+        {
+            await dataStatisticsMongoDBService.PushDataTemperatureHumidityToDB(temperatureHumidityDeviceEntity);
+            return;
+        }
     }
 }

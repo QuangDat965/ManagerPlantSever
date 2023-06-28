@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ManagerServer.Controllers
 {
-    [ApiController, Route ("api/[controller]")]
+    [ApiController, Route("api/[controller]")]
     public class MeasuringDeviceController : ControllerBase
     {
         private readonly IDeviceService service;
@@ -15,33 +15,33 @@ namespace ManagerServer.Controllers
         {
             this.service = service;
         }
-        [HttpGet, Route ("get-all")]
+        [HttpGet, Route("get-all")]
         public async Task<List<MeasuringDeviceEntity>> GetAllDevice()
         {
-            return await service.GetAllDevice ();
+            return await service.GetAllDevice();
         }
         // SetZone cho Measuring device
-        [HttpPost, Route ("setzone")]
+        [HttpPost, Route("setzone")]
         public async Task<ResponseModel<bool>> SetZone([FromBody] DeviceRequestModel requestModel)
         {
-            return await service.SetDeviceToZone (requestModel);
+            return await service.SetDeviceToZone(requestModel);
         }
-        [HttpPost, Route ("getdeviceative")]
+        [HttpPost, Route("getdeviceative")]
         public async Task<ResponseModel<List<MeasuringDeviceEntity>>> GetDeviceAtive([FromBody] DeviceRequestModel requestModel)
         {
-            return await service.GetDeviceActive (requestModel);
+            return await service.GetDeviceActive(requestModel);
         }
         // Lấy ra Device By ZOne Id
-        [HttpPost, Route ("getdevicebyzoneid")]
+        [HttpPost, Route("getdevicebyzoneid")]
         public async Task<ResponseModel<List<MeasuringDeviceEntity>>> GetDeviceByZoneId([FromBody] DeviceRequestModel requestModel)
         {
-            return await service.GetDeviceByZoneId (requestModel);
+            return await service.GetDeviceByZoneId(requestModel);
         }
         // Dùng để tạo mới 1 Measuring Device
-        [HttpPost ("AddDevice")]
+        [HttpPost("AddDevice")]
         public async Task<ResponseModel<bool>> CreateDevice(MeasuringDeviceCreateModel requestModel)
         {
-            return await service.CreateDevice (requestModel);
+            return await service.CreateDevice(requestModel);
         }
 
     }

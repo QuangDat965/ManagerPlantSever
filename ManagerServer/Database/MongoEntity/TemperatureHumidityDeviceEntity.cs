@@ -12,7 +12,11 @@ namespace ManagerServer.Database.MongoEntity
         [BsonElement("ValueDate")]
         [JsonPropertyName("ValueDate")]
         public DateTime ValueDate { get; set; } = DateTime.Now;
+        [BsonElement("TemperatureValue")]
+        [JsonPropertyName("TemperatureValue")]
         public string TemperatureValue { get; set; } = string.Empty;
+        [BsonElement("HumidityValue")]
+        [JsonPropertyName("HumidityValue")]
         public string HumidityValue { get; set; } = string.Empty;
     }
 }
