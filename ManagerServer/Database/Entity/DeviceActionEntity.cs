@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ManagerServer.Common.Enum;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ManagerServer.Database.Entity
@@ -6,10 +7,11 @@ namespace ManagerServer.Database.Entity
     public class DeviceActionEntity
     {
         [Key]
-        public int Id { get; set; }
+        public string Id { get; set; }
         public string? Name { get; set; }
         public string? Description { get; set; }
         public bool IsProblem { get; set; } = false;
+        public DeviceActionType DeviceActionType { get; set; }
         public bool IsAction { get; set; } = true;
         public string? Image { get; set; }
         public string? Address { get; set; }

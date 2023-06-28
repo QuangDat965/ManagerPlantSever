@@ -48,35 +48,35 @@ namespace ManagerServer.Service
                 while ( true )
                 {
                     var temp = new Random ().Next (30, 37);
-                    this.Publish (topicTest + "/1gggg" + "/R" + $"/{TopicType.Temperature}", temp.ToString ());
+                    this.Publish (topicTest + "/ghsycksds" + "/R" + $"/{TopicType.temperature}", temp.ToString ());
 
                     var mosuli = new Random ().Next (70, 80);
-                    this.Publish (topicTest + "/1gggg" + "/R" + $"/{TopicType.Moisture}", mosuli.ToString ());
+                    this.Publish (topicTest + "/dfhcusdnkwq" + "/R" + $"/{TopicType.moisture}", mosuli.ToString ());
                     var human = new Random().Next(70, 80);
-                    this.Publish(topicTest + "/1gggg" + "/R" + $"/{TopicType.Humidity}", human.ToString());
+                    this.Publish(topicTest + "/jkowlxsiuwe" + "/R" + $"/{TopicType.humidity}", human.ToString());
                     var bigh = new Random().Next(70, 80);
-                    this.Publish(topicTest + "/1gggg" + "/R" + $"/{TopicType.Brightness}", bigh.ToString());
+                    this.Publish(topicTest + "/dsakjhcuasdiw" + "/R" + $"/{TopicType.raindetection}", bigh.ToString());
 
 
-                    this.Publish (topicTest + "/1gggg" + "/W" + $"/{TopicType.IsOnFan}", 0.ToString ());
-                    this.Publish (topicTest + "/1gggg" + "/W" + $"/{TopicType.IsOnWater}", 0.ToString ());
-                    this.Publish (topicTest + "/1gggg" + "/W" + $"/{TopicType.IsOnLamp}", 0.ToString ());
+                    this.Publish (topicTest + "/dnshycjssddd" + "/W" + $"/{TopicType.IsOnFan}", 0.ToString ());
+                    this.Publish (topicTest + "/nhdydsychsjq" + "/W" + $"/{TopicType.IsOnWater}", 0.ToString ());
+                    this.Publish (topicTest + "/djkhsuchzbhw" + "/W" + $"/{TopicType.IsOnLamp}", 0.ToString ());
 
                     //device 2
                     var temp2 = new Random().Next(30, 37);
-                    this.Publish(topicTest + "/2gggg" + "/R" + $"/{TopicType.Temperature}", temp2.ToString());
+                    this.Publish(topicTest + "/jhtrrrrrrd" + "/R" + $"/{TopicType.temperature}", temp2.ToString());
 
                     var mosuli2 = new Random().Next(70, 80);
-                    this.Publish(topicTest + "/2gggg" + "/R" + $"/{TopicType.Moisture}", mosuli2.ToString());
+                    this.Publish(topicTest + "/ssssssawq" + "/R" + $"/{TopicType.moisture}", mosuli2.ToString());
                     var human2 = new Random().Next(70, 80);
-                    this.Publish(topicTest + "/2gggg" + "/R" + $"/{TopicType.Humidity}", human2.ToString());
+                    this.Publish(topicTest + "/sdddiujszz" + "/R" + $"/{TopicType.humidity}", human2.ToString());
                     var bigh2 = new Random().Next(70, 80);
-                    this.Publish(topicTest + "/2gggg" + "/R" + $"/{TopicType.Brightness}", bigh2.ToString());
+                    this.Publish(topicTest + "/djiujnshazsq" + "/R" + $"/{TopicType.raindetection}", bigh2.ToString());
 
 
-                    this.Publish(topicTest + "/2gggg" + "/W" + $"/{TopicType.IsOnFan}", 0.ToString());
-                    this.Publish(topicTest + "/2gggg" + "/W" + $"/{TopicType.IsOnWater}", 0.ToString());
-                    this.Publish(topicTest + "/2gggg" + "/W" + $"/{TopicType.IsOnLamp}", 0.ToString());
+                    this.Publish(topicTest + "/dkkkkkkiajxhq" + "/W" + $"/{TopicType.IsOnFan}", 0.ToString());
+                    this.Publish(topicTest + "/skkkkiayzhwnq" + "/W" + $"/{TopicType.IsOnWater}", 0.ToString());
+                    this.Publish(topicTest + "/aussyxgshabw" + "/W" + $"/{TopicType.IsOnLamp}", 0.ToString());
 
                     Thread.Sleep (4000);
                 }

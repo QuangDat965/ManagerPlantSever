@@ -8,7 +8,7 @@ namespace ManagerServer.Database.Entity
         [Key]
         public int Id { get; set; }
         [ForeignKey ("DeviceAction")]
-        public int? DeviceActionId { get; set; }
+        public string? DeviceActionId { get; set; }
         public DeviceActionEntity? DeviceAction { get; set; }
         public DateTime ValueDate { get; set; }
         public double ValueMin { get; set; }

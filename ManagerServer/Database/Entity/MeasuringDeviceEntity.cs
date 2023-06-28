@@ -7,7 +7,7 @@ namespace ManagerServer.Database.Entity
     public class MeasuringDeviceEntity
     {
         [Key]
-        public int Id { get; set; }
+        public string Id { get; set; }
         [ForeignKey ("Zone")]
 
         public int? ZoneId { get; set; }

@@ -1,4 +1,5 @@
 ﻿using ManagerServer.Common.Constant;
+using ManagerServer.Common.Enum;
 using ManagerServer.Database;
 using ManagerServer.Database.Entity;
 using Microsoft.EntityFrameworkCore;
@@ -51,7 +52,7 @@ namespace MyProject.Services
 
         private async Task<bool> SaveToDb(MqttMsgPublishEventArgs e)
         {
-          var builder = new DbContextOptionsBuilder<ManagerDbContext>().UseSqlServer(configuration["ConnectionStrings:DefaultConnection"]);
+          var builder = new DbContextOptionsBuilder<ManagerDbContext>().UseMySql(configuration["ConnectionStrings:MySqlConnection"], new MySqlServerVersion(new Version(5, 7, 0)));
             try
             {
                 var arr = e.Topic.Split ('/');
@@ -59,29 +60,62 @@ namespace MyProject.Services
                 {
                     try
                     {
-                        var device = await context.MeasuringDeviceEntities.FirstOrDefaultAsync (p => p.Id == int.Parse (arr[1]));
-                        if ( device == null )
+                        bool deviceSensor = false;
+                        if (arr[2] == "R")
                         {
-                            var devicetemp = new MeasuringDeviceEntity ()
-                            {
-                                DateCreate = DateTime.Now,
-                                Name = arr[1],
-                                Id = int.Parse (arr[1])
-                            };
-                            context.Add (devicetemp);
-                            context.SaveChanges ();
-
-
+                            deviceSensor = true;
                         }
-                        var datatemp = new DataDeviceResponseEntity ()
+
+                        if (deviceSensor)
                         {
-                            Topic = arr[3],
-                            Payload = Encoding.UTF8.GetString (e.Message),
-                            TimeRetrieve = DateTime.Now,
-                            DataDeviceId = int.Parse (arr[1]),
-                        };
-                        context.Add (datatemp);
-                        context.SaveChanges ();
+                            var device = await context.MeasuringDeviceEntities.FirstOrDefaultAsync(p => p.Id == arr[1]);
+                            if (device == null)
+                            {
+                                var devicetemp = new MeasuringDeviceEntity()
+                                {
+                                    DateCreate = DateTime.Now,
+                                    Name = arr[3],
+                                    Id = arr[1],
+                                    DeviceType = arr[3] == "temperature" ? DeviceType.TemperatureMeasurementDevice :
+                                                 arr[3] == "humidity" ? DeviceType.HumidityMeasuringDevice :
+                                                 arr[3] == "raindetection" ? DeviceType.RainDetection :
+                                                 DeviceType.Unknown,
+
+                                };
+                                context.Add(devicetemp);
+                                context.SaveChanges();
+                            }
+                        }
+                        else
+                        {
+                            var device = await context.DeviceActionEntities.FirstOrDefaultAsync(p => p.Id == arr[1]);
+                            if (device == null)
+                            {
+                                var devicetemp = new DeviceActionEntity()
+                                {
+                                    DateCreate = DateTime.Now,
+                                    Name = arr[3],
+                                    Id = arr[1],
+                                    DeviceActionType = arr[3] == "IsOnWater" ? DeviceActionType.Spinkklers :
+                                                 arr[3] == "IsOnFan" ? DeviceActionType.Fan :
+                                                 arr[3] == "IsOnLamp" ? DeviceActionType.Lamp :
+                                                 arr[3] == "IsOnCover" ? DeviceActionType.Coverd :
+                                                 DeviceActionType.Unknown,
+
+                                };
+                                context.Add(devicetemp);
+                                context.SaveChanges();
+                            }
+                        }
+                        //var datatemp = new DataDeviceResponseEntity ()
+                        //{
+                        //    Topic = arr[3],
+                        //    Payload = Encoding.UTF8.GetString (e.Message),
+                        //    TimeRetrieve = DateTime.Now,
+                        //    DataDeviceId = int.Parse (arr[1]),
+                        //};
+                        //context.Add (datatemp);
+                        //context.SaveChanges ();
                     }
                     catch ( Exception ex )
                     {

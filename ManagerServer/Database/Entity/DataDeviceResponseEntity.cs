@@ -13,7 +13,7 @@ namespace ManagerServer.Database.Entity
         public DateTime? TimeRetrieve { get; set; }
         public string? Type { get; set; }
         [ForeignKey ("MeasuringDevice")]
-        public int? DataDeviceId { get; set; }
+        public string? DataDeviceId { get; set; }
         [NotMapped]
         public MeasuringDeviceEntity? MeasuringDevice { get; set; }
     }

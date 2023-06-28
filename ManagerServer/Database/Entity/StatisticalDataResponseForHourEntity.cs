@@ -1,13 +1,15 @@
 ﻿using ManagerServer.Common.Enum;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ManagerServer.Database.Entity
 {
     public class StatisticalDataResponseForHourEntity
     {
+        [Key]
         public int Id { get; set; }
         [ForeignKey ("StatisticalDataResponse")]
-        public int? DeviceMeasureId { get; set; }
+        public string? DeviceMeasureId { get; set; }
         [NotMapped]
         public MeasuringDeviceEntity? StatisticalDataResponse { get; set; }
         public DeviceType DeviceType { get; set; }
