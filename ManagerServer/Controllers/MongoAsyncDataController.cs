@@ -1,5 +1,4 @@
-﻿using ManagerServer.Database.MongoEntity;
-using ManagerServer.Service.DataStatisticsMongoDBService;
+﻿using ManagerServer.Service.DataStatisticsMongoDBService;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ManagerServer.Controllers
@@ -13,10 +12,6 @@ namespace ManagerServer.Controllers
         {
             this.dataStatisticsMongoDBService = dataStatisticsMongoDBService;
         }
-        [HttpGet]
-        public async Task<List<TemperatureHumidityDeviceEntity>> PullDataMongoToDatabaseRelationship()
-        {
-            return await dataStatisticsMongoDBService.PullDataMongoToDatabaseRelationship();
-        }
+
     }
 }

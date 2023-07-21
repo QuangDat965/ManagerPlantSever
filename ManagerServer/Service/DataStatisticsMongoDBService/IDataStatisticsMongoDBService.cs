@@ -4,7 +4,6 @@ namespace ManagerServer.Service.DataStatisticsMongoDBService
 {
     public interface IDataStatisticsMongoDBService
     {
-        Task PushDataToDB(TemperatureHumidityDeviceEntity temperatureHumidityDeviceEntity, RainDetectionEntity rainDetectionEntity);
-        Task<List<TemperatureHumidityDeviceEntity>> PullDataMongoToDatabaseRelationship();
+        Task PushDataToDB(DataMongoDeviceEntity addModel);
     }
 }

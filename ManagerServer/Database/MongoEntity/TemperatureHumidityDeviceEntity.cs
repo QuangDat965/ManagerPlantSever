@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace ManagerServer.Database.MongoEntity
 {
-    public class TemperatureHumidityDeviceEntity
+    public class DataMongoDeviceEntity
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
@@ -12,7 +12,12 @@ namespace ManagerServer.Database.MongoEntity
         [BsonElement("ValueDate")]
         [JsonPropertyName("ValueDate")]
         public DateTime ValueDate { get; set; } = DateTime.Now;
-        public string TemperatureValue { get; set; } = string.Empty;
-        public string HumidityValue { get; set; } = string.Empty;
+        [BsonElement("Topic")]
+        [JsonPropertyName("Topic")]
+        public string? Topic { get; set; }
+        [BsonElement("PayLoad")]
+        [JsonPropertyName("PayLoad")]
+        public string? PayLoad { get; set; }
+
     }
 }

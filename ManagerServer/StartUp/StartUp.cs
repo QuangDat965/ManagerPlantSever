@@ -2,6 +2,7 @@
 using ManagerServer.Database.Entity;
 using ManagerServer.Model.MongoModel;
 using ManagerServer.Service.BaseService;
+using ManagerServer.Service.DataStatisticsMongoDBService;
 using ManagerServer.Service.DataStatisticsService;
 using ManagerServer.Service.DeviceActionService;
 using ManagerServer.Service.FarmService;
@@ -24,30 +25,31 @@ namespace ManagerServer.StartUp
         public static WebApplicationBuilder AddServicesBase(this WebApplicationBuilder builder)
         {
 
-            builder.Services.AddControllers ();
-            builder.Services.AddEndpointsApiExplorer ();
-            builder.Services.AddScoped<IAuthService, AuthService> ();
-            builder.Services.AddScoped<UserManager<AppUser>> ();
-            builder.Services.AddScoped<SignInManager<AppUser>> ();
-            builder.Services.AddScoped<RoleManager<IdentityRole>> ();
-            builder.Services.AddScoped<IBaseService, BaseService> ();
-            builder.Services.AddScoped<IRoleService, RoleService> ();
-            builder.Services.AddScoped<IAuthService, AuthService> ();
-            builder.Services.AddScoped<IUserService, UserService> ();
-            builder.Services.AddScoped<IFarmService, FarmService> ();
-            builder.Services.AddScoped<IZoneService, ZoneService> ();
-            builder.Services.AddScoped<IDeviceService, DeviceService> ();
-            builder.Services.AddScoped<IDataStatisticsService, DataStatisticsService> ();
-            builder.Services.AddScoped<IDeviceActionService, DeviceActionService> ();
+            builder.Services.AddControllers();
+            builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddScoped<IAuthService, AuthService>();
+            builder.Services.AddScoped<UserManager<AppUser>>();
+            builder.Services.AddScoped<SignInManager<AppUser>>();
+            builder.Services.AddScoped<RoleManager<IdentityRole>>();
+            builder.Services.AddScoped<IBaseService, BaseService>();
+            builder.Services.AddScoped<IRoleService, RoleService>();
+            builder.Services.AddScoped<IAuthService, AuthService>();
+            builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<IFarmService, FarmService>();
+            builder.Services.AddScoped<IZoneService, ZoneService>();
+            builder.Services.AddScoped<IDeviceService, DeviceService>();
+            builder.Services.AddScoped<IDataStatisticsService, DataStatisticsService>();
+            builder.Services.AddScoped<IDeviceActionService, DeviceActionService>();
+            builder.Services.AddSingleton<IDataStatisticsMongoDBService, DataStatisticsMongoDBService>();
 
-            builder.Services.AddCors (options =>
+            builder.Services.AddCors(options =>
             {
-                options.AddPolicy ("AllowAllHeaders",
+                options.AddPolicy("AllowAllHeaders",
                     builder =>
                     {
-                        builder.AllowAnyOrigin ()
-                               .AllowAnyHeader ()
-                               .AllowAnyMethod ();
+                        builder.AllowAnyOrigin()
+                               .AllowAnyHeader()
+                               .AllowAnyMethod();
                     });
             });
 
@@ -55,18 +57,18 @@ namespace ManagerServer.StartUp
         }
         public static WebApplicationBuilder AddBackgroundServices(this WebApplicationBuilder builder)
         {
-            builder.Services.AddHostedService<MyProject.Services.ListeningService> ();
+            builder.Services.AddHostedService<MyProject.Services.ListeningService>();
             //builder.Services.AddHostedService<ProcessDataService>();
             return builder;
         }
         public static WebApplicationBuilder AddServicesContext(this WebApplicationBuilder builder)
         {
-            builder.Services.AddDbContext<ManagerDbContext> (options =>
-                  options.UseSqlServer (builder.Configuration.GetConnectionString ("DefaultConnection")));
-            builder.Services.AddSwaggerGen (opt =>
+            builder.Services.AddDbContext<ManagerDbContext>(options =>
+                  options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+            builder.Services.AddSwaggerGen(opt =>
             {
-                opt.SwaggerDoc ("v1", new OpenApiInfo { Title = "ManagerServer", Version = "v1" });
-                opt.AddSecurityDefinition ("Bearer", new OpenApiSecurityScheme
+                opt.SwaggerDoc("v1", new OpenApiInfo { Title = "ManagerServer", Version = "v1" });
+                opt.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     In = ParameterLocation.Header,
                     Description = "Please enter token",
@@ -75,7 +77,7 @@ namespace ManagerServer.StartUp
                     BearerFormat = "JWT",
                     Scheme = "bearer"
                 });
-                opt.AddSecurityRequirement (new OpenApiSecurityRequirement
+                opt.AddSecurityRequirement(new OpenApiSecurityRequirement
                 {
                     {
                         new OpenApiSecurityScheme
@@ -95,18 +97,18 @@ namespace ManagerServer.StartUp
 
         public static WebApplicationBuilder AddMySql(this WebApplicationBuilder builder)
         {
-            var serverVersion = new MySqlServerVersion (new Version (5, 7, 0));
+            var serverVersion = new MySqlServerVersion(new Version(5, 7, 0));
 
             // Replace 'YourDbContext' with the name of your own DbContext derived class.
-            builder.Services.AddDbContext<ManagerDbContext> (
+            builder.Services.AddDbContext<ManagerDbContext>(
                 dbContextOptions => dbContextOptions
-                    .UseMySql (builder.Configuration.GetConnectionString ("MySqlConnection"), serverVersion)
+                    .UseMySql(builder.Configuration.GetConnectionString("MySqlConnection"), serverVersion)
                     );
 
-            builder.Services.AddSwaggerGen (opt =>
+            builder.Services.AddSwaggerGen(opt =>
             {
-                opt.SwaggerDoc ("v1", new OpenApiInfo { Title = "ManagerServer", Version = "v1" });
-                opt.AddSecurityDefinition ("Bearer", new OpenApiSecurityScheme
+                opt.SwaggerDoc("v1", new OpenApiInfo { Title = "ManagerServer", Version = "v1" });
+                opt.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     In = ParameterLocation.Header,
                     Description = "Please enter token",
@@ -115,7 +117,7 @@ namespace ManagerServer.StartUp
                     BearerFormat = "JWT",
                     Scheme = "bearer"
                 });
-                opt.AddSecurityRequirement (new OpenApiSecurityRequirement
+                opt.AddSecurityRequirement(new OpenApiSecurityRequirement
                 {
                     {
                         new OpenApiSecurityScheme
@@ -134,52 +136,52 @@ namespace ManagerServer.StartUp
         }
         public static WebApplicationBuilder AddServicesIdentity(this WebApplicationBuilder builder)
         {
-            builder.Services.AddIdentity<AppUser, IdentityRole> ()
-                    .AddEntityFrameworkStores<ManagerDbContext> ()
-                    .AddDefaultTokenProviders ();
+            builder.Services.AddIdentity<AppUser, IdentityRole>()
+                    .AddEntityFrameworkStores<ManagerDbContext>()
+                    .AddDefaultTokenProviders();
             builder.Services
-                .AddAuthentication (options =>
+                .AddAuthentication(options =>
                 {
                     options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
                     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
                 })
-                .AddJwtBearer (options =>
+                .AddJwtBearer(options =>
                 {
                     options.SaveToken = true;
                     options.RequireHttpsMetadata = false;
-                    options.TokenValidationParameters = new TokenValidationParameters ()
+                    options.TokenValidationParameters = new TokenValidationParameters()
                     {
                         ValidateIssuer = true,
                         ValidateAudience = true,
                         ValidIssuer = builder.Configuration["JWT:ValidIssuer"],
                         ValidAudience = builder.Configuration["JWT:ValidAudience"],
-                        IssuerSigningKey = new SymmetricSecurityKey (Encoding.UTF8.GetBytes (builder.Configuration["JWT:Secret"]!))
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Secret"]!))
                     };
                 });
-            builder.Services.AddAuthorization (options =>
+            builder.Services.AddAuthorization(options =>
             {
-                options.AddPolicy ("Admin", policy => policy.RequireRole ("Admin"));
-                options.AddPolicy ("User", policy => policy.RequireRole ("User"));
-                options.AddPolicy ("Owner", policy => policy.RequireRole ("Owner"));
+                options.AddPolicy("Admin", policy => policy.RequireRole("Admin"));
+                options.AddPolicy("User", policy => policy.RequireRole("User"));
+                options.AddPolicy("Owner", policy => policy.RequireRole("Owner"));
             });
             return builder;
         }
         public static WebApplicationBuilder AddConfiguationMongodb(this WebApplicationBuilder builder)
         {
-            builder.Services.Configure<MongoDBSettings> (builder.Configuration.GetSection ("MongoDB"));
+            builder.Services.Configure<MongoDBSettings>(builder.Configuration.GetSection("MongoDB"));
             return builder;
         }
         public static WebApplication UsesService(this WebApplication app)
         {
-            app.UseSwagger ();
-            app.UseSwaggerUI ();
-            app.UseCors ("AllowAllHeaders");
-            app.UseHttpsRedirection ();
-            app.UseAuthentication ();
-            app.UseAuthorization ();
+            app.UseSwagger();
+            app.UseSwaggerUI();
+            app.UseCors("AllowAllHeaders");
+            app.UseHttpsRedirection();
+            app.UseAuthentication();
+            app.UseAuthorization();
             //app.UseMiddleware<ApiResponseMiddleware> ();
-            app.MapControllers ();
+            app.MapControllers();
             return app;
         }
     }
