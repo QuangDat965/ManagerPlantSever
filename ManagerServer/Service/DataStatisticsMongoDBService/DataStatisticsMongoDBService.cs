@@ -8,33 +8,36 @@ namespace ManagerServer.Service.DataStatisticsMongoDBService
 {
     public class DataStatisticsMongoDBService : IDataStatisticsMongoDBService
     {
-        private readonly IMongoCollection<TemperatureHumidityDeviceEntity> TemperatureHumidityCollection;
-        private readonly IMongoCollection<RainDetectionEntity> RainDetectionCollection;
-
+        private readonly IMongoCollection<DataMongoDeviceEntity> datamongodeviceentity;
+        private readonly MongoClient client;
         public DataStatisticsMongoDBService(IOptions<MongoDBSettings> mongoDBSettings)
         {
-            var client = new MongoClient(mongoDBSettings.Value.ConnectionURI);
-            var database = client.GetDatabase(mongoDBSettings.Value.DatabaseName);
-            TemperatureHumidityCollection = database.GetCollection<TemperatureHumidityDeviceEntity>(mongoDBSettings.Value.TemperatureHuminityDevice);
-            RainDetectionCollection = database.GetCollection<RainDetectionEntity>(mongoDBSettings.Value.RainDetectionDevice);
+            this.client = new MongoClient(mongoDBSettings.Value.ConnectionURI);
+            var database = this.client.GetDatabase(mongoDBSettings.Value.DatabaseName);
+            datamongodeviceentity = database.GetCollection<DataMongoDeviceEntity>(mongoDBSettings.Value.DataDevice);
         }
 
-        public async Task<List<TemperatureHumidityDeviceEntity>> PullDataMongoToDatabaseRelationship()
+        //public Task Connection()
+        //{
+        //    client.Cluster.
+        //}
+
+        public async Task<List<DataMongoDeviceEntity>> PullDataMongoToDatabaseRelationship()
         {
-            var dataTemperatureHumidity = await TemperatureHumidityCollection.Find<TemperatureHumidityDeviceEntity>(new BsonDocument()).ToListAsync();
+            var dataTemperatureHumidity = await datamongodeviceentity.Find<DataMongoDeviceEntity>(new BsonDocument()).ToListAsync();
             return dataTemperatureHumidity;
         }
 
-        public async Task PushDataTemperatureHumidityToDB(TemperatureHumidityDeviceEntity temperatureHumidityDeviceEntity)
+        public async Task PushDataToDB(DataMongoDeviceEntity addModel)
         {
-            temperatureHumidityDeviceEntity.Id = ObjectId.GenerateNewId().ToString();
-            await TemperatureHumidityCollection.InsertOneAsync(temperatureHumidityDeviceEntity);
+            addModel.Id = ObjectId.GenerateNewId().ToString();
+            await datamongodeviceentity.InsertOneAsync(addModel);
             Task.CompletedTask.Wait();
         }
 
-        public Task PushDataTemperatureHumidityToDB(RainDetectionEntity rainDetectionEntity)
-        {
-            throw new NotImplementedException();
-        }
+        //public Task PushDataTemperatureHumidityToDB(RainDetectionEntity rainDetectionEntity)
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }

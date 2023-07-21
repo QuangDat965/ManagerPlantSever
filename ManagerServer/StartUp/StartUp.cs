@@ -40,7 +40,7 @@ namespace ManagerServer.StartUp
             builder.Services.AddScoped<IDeviceService, DeviceService>();
             builder.Services.AddScoped<IDataStatisticsService, DataStatisticsService>();
             builder.Services.AddScoped<IDeviceActionService, DeviceActionService>();
-            builder.Services.AddScoped<IDataStatisticsMongoDBService, DataStatisticsMongoDBService>();
+            builder.Services.AddSingleton<IDataStatisticsMongoDBService, DataStatisticsMongoDBService>();
 
             builder.Services.AddCors(options =>
             {

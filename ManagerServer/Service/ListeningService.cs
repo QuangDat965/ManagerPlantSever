@@ -2,7 +2,10 @@
 using ManagerServer.Common.Enum;
 using ManagerServer.Database;
 using ManagerServer.Database.Entity;
+using ManagerServer.Database.MongoEntity;
+using ManagerServer.Service.DataStatisticsMongoDBService;
 using Microsoft.EntityFrameworkCore;
+using MongoDB.Bson;
 using System.Text;
 using uPLibrary.Networking.M2Mqtt;
 using uPLibrary.Networking.M2Mqtt.Messages;
@@ -14,49 +17,51 @@ namespace MyProject.Services
         private readonly MqttClient _client;
         private readonly string _clientId;
         private readonly IConfiguration configuration;
-        
+        private readonly IDataStatisticsMongoDBService dataStatisticsMongoDBService;
 
-        public ListeningService(IConfiguration configuration)
+
+        public ListeningService(IConfiguration configuration, IDataStatisticsMongoDBService dataStatisticsMongoDBService)
         {
             _client = new MqttClient(Constant.BrokerURL);
             _clientId = Guid.NewGuid().ToString();
+            this.dataStatisticsMongoDBService = dataStatisticsMongoDBService;
             this.configuration = configuration;
         }
-
+        // override
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             _client.MqttMsgPublishReceived += async (s, e) =>
             {
-                await SaveToDb (e);
+                await SaveToDb(e);
             };
-            while ( !stoppingToken.IsCancellationRequested )
+            while (!stoppingToken.IsCancellationRequested)
             {
 
                 try
                 {
-                    if ( !_client.IsConnected )
+                    if (!_client.IsConnected)
                     {
-                        _client.Connect (_clientId);
-                        Console.WriteLine ("MQTT connected");
-                        _client.Subscribe (new string[] { Constant.SystemUrl + "/#" }, new byte[] { MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE });
+                        _client.Connect(_clientId);
+                        Console.WriteLine("MQTT connected");
+                        _client.Subscribe(new string[] { Constant.SystemUrl + "/#" }, new byte[] { MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE });
                     }
 
                 }
-                catch ( Exception e )
+                catch (Exception e)
                 {
-                    Console.WriteLine ("fail listening main" + e.Message);
+                    Console.WriteLine("fail listening main" + e.Message);
                 }
-                await Task.Delay (2000, stoppingToken);
+                await Task.Delay(2000, stoppingToken);
             }
         }
 
         private async Task<bool> SaveToDb(MqttMsgPublishEventArgs e)
         {
-          var builder = new DbContextOptionsBuilder<ManagerDbContext>().UseMySql(configuration["ConnectionStrings:MySqlConnection"], new MySqlServerVersion(new Version(5, 7, 0)));
+            var builder = new DbContextOptionsBuilder<ManagerDbContext>().UseMySql(configuration["ConnectionStrings:MySqlConnection"], new MySqlServerVersion(new Version(5, 7, 0)));
             try
             {
-                var arr = e.Topic.Split ('/');
-                using ( var context = new ManagerDbContext (builder.Options) )
+                var arr = e.Topic.Split('/');
+                using (var context = new ManagerDbContext(builder.Options))
                 {
                     try
                     {
@@ -117,17 +122,34 @@ namespace MyProject.Services
                         //context.Add (datatemp);
                         //context.SaveChanges ();
                     }
-                    catch ( Exception ex )
+                    catch (Exception ex)
                     {
-
-                    };
+                        return false;
+                    }
                 }
-                return true;
 
+                //var key = arr[3].ToLower();
+                //var controller = TopicProcessing.Find(key);
+                //controller.Context = new TopicEntity
+                //{
+                //    Message = Encoding.UTF8.GetString(e.Message),
+                //    Topic = e.Topic,
+                //};
+                //controller.Process();
+
+                var ValueAdd = new DataMongoDeviceEntity()
+                {
+                    Id = ObjectId.GenerateNewId().ToString(),
+                    PayLoad = Encoding.UTF8.GetString(e.Message),
+                    ValueDate = DateTime.Now,
+                    Topic = e.Topic,
+                };
+                await dataStatisticsMongoDBService.PushDataToDB(ValueAdd);
+                return true;
             }
-            catch ( Exception ex )
+            catch (Exception ex)
             {
-                Console.WriteLine ("save erro:" + ex.Message);
+                Console.WriteLine("save error:" + ex.Message);
                 throw;
             }
         }
